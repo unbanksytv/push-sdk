@@ -29,6 +29,20 @@
         "jestConfig": "packages/restapi/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "ci-version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "commitMessageFormat": "ci(${projectName}): 🎉 cut release to ${projectName}-v${version}",
+        "postTargets": ["restapi:build", "restapi:ci-publish"]
+      }
+    },
+    "ci-publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs restapi"
+      }
     }
   },
   "tags": []
