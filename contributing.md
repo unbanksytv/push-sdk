@@ -13,7 +13,7 @@ cd epns-sdk
 yarn install
 ```
 ***Note*** -
-We are using `yarn` and strongly advise to use yarn to avoid any NPM issues.
+We are using `yarn` and **strongly** advise to use yarn 1.x to avoid any NPM issues.
 
 
 ## Pull Requests process
