@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@epnsproject/sdk-restapi": ["packages/restapi/src/index.ts"]
+      "@epnsproject/sdk-restapi": ["packages/restapi/src/index.ts"],
+      "@epnsproject/sdk-uiembed": ["packages/uiembed/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
