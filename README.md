@@ -2,7 +2,4 @@
 
 Monorepo for EPNS SDK packages.
 
-# Contributing
-```
-yarn install
-```
+# [Contributing](./contributing.md)
