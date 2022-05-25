@@ -12,7 +12,7 @@ export function Reactweb(props: ReactwebProps) {
   const [version, setVersion] = useState<string>();
 
   useEffect(() => {
-    console.log('checking out the React Version @runtime: ', React.version);
+    console.log('React Version inside pkg @runtime: ', React.version);
     setVersion(React.version);
   }, [version]);
 

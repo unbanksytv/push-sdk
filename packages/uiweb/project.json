@@ -38,6 +38,20 @@
         "jestConfig": "packages/uiweb/jest.config.ts",
         "passWithNoTests": true
       }
+    },
+    "ci-version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "commitMessageFormat": "ci(${projectName}): 🎉 cut release to ${projectName}-v${version}",
+        "postTargets": ["uiweb:build", "uiweb:ci-publish"]
+      }
+    },
+    "ci-publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "command": "node tools/scripts/publish.mjs uiweb"
+      }
     }
   }
 }

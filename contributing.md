@@ -19,7 +19,7 @@ We are using `yarn` and **strongly** advise to use yarn 1.x to avoid any NPM iss
 ## Pull Requests process
 - All changes should be requested through PRs from a feature/bug branch to `main` branch.
 - We are using 
-   - [conventional-commits](https://www.conventionalcommits.org/en/v1.0.0/#summary): to follow semver for npm package versioning
+   - [conventional-commits](https://www.conventionalcommits.org/en/v1.0.0/#summary): to follow [semver](https://semver.org/#summary) for npm package versioning
    - [commitizen](https://github.com/commitizen/cz-cli) to restrict commits to follow conventional commits
    - [husky](https://typicode.github.io/husky/#/) to run pre-commit checks
 

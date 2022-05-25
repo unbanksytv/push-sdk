@@ -24,7 +24,7 @@ const __DEFAULT_CONFIG = {
 	},
 }
 
-// runtime config
+// RUNTIME config
 let __CONFIG = {} as ConfigType
 
 /**
