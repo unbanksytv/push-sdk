@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "@epnsproject/sdk-restapi": ["packages/restapi/src/index.ts"],
-      "@epnsproject/sdk-uiembed": ["packages/uiembed/src/index.ts"]
+      "@epnsproject/sdk-uiembed": ["packages/uiembed/src/index.ts"],
+      "@epnsproject/sdk-uiweb": ["packages/uiweb/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

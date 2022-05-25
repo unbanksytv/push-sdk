@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "restapi": "packages/restapi",
-    "uiembed": "packages/uiembed"
+    "uiembed": "packages/uiembed",
+    "uiweb": "packages/uiweb"
   }
 }

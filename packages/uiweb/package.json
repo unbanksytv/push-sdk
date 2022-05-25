@@ -1,0 +1,11 @@
+{
+  "name": "@epnsproject/sdk-uiweb",
+  "version": "0.0.1",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "styled-components": "5.3.5"
+  }
+}
