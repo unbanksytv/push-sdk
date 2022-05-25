@@ -1,6 +1,6 @@
 # uiweb
 
-Package for React based UI components to be used by dApp.
+Package for React based UI web components to be used by dApp.
 
 ## Running unit tests
 
