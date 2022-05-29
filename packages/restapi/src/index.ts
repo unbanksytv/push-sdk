@@ -1,1 +1,1 @@
-export * from './lib/restapi';
+export * from './lib';
