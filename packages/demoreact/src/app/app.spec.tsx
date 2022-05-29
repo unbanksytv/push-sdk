@@ -22,6 +22,6 @@ describe('App', () => {
       </BrowserRouter>
     );
 
-    expect(getByText(/Welcome demoreact/i)).toBeTruthy();
+    expect(getByText(/EPNS SDK Demo React App/i)).toBeTruthy();
   });
 });
