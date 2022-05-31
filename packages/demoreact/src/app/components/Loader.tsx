@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 type LoaderType = {
@@ -31,6 +30,8 @@ const LoadingOverlay = styled.div`
       font-size: 3rem;
       color: #fff;
     }
+
+    z-index: 999999;
 `;
 
 export default Loader;
