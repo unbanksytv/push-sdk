@@ -1,1 +1,1 @@
-export * from './lib/uiweb';
+export * from './lib';

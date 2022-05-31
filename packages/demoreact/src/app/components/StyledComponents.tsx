@@ -4,6 +4,14 @@ export const Section = styled.section`
   border: 2px solid #ccc;
   padding: 25px;
   margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  background-color: ${(props) => props.theme === 'dark' ? '#000' : '#fff'};
+
+  & .headerText {
+    color: ${(props) => props.theme === 'dark' ? '#fff' : '#000'};
+    font-size: 2rem;
+  }
 `
 
 export const SectionItem = styled.div`
