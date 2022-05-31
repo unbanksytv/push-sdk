@@ -68,7 +68,7 @@ export function App() {
   const web3Data : Web3ReactState = useWeb3React();
   return (
     <StyledApp>
-      <Link to="/"><h1>EPNS SDK Demo React App</h1></Link>
+      <Link to="/"><h1>EPNS-SDK Demo React App</h1></Link>
 
       <ConnectButton />
       <hr />

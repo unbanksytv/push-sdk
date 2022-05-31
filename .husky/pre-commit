@@ -2,5 +2,6 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo "\nRunning GIT hooks..."
-yarn nx affected --target=lint 
+yarn cleanbuild
+yarn nx affected --target=lint
 yarn nx affected --target=test
