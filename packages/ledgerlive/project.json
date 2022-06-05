@@ -10,7 +10,9 @@
         "outputPath": "dist/packages/ledgerlive",
         "main": "packages/ledgerlive/src/index.ts",
         "tsConfig": "packages/ledgerlive/tsconfig.lib.json",
-        "assets": ["packages/ledgerlive/*.md"]
+        "assets": ["packages/ledgerlive/*.md"],
+        "updateBuildableProjectDepsInPackageJson": true,
+        "buildableProjectDepsInPackageJsonType": "dependencies"
       }
     },
     "lint": {
