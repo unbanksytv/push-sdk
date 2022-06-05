@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@epnsproject/sdk-ledgerlive": ["packages/ledgerlive/src/index.ts"],
       "@epnsproject/sdk-restapi": ["packages/restapi/src/index.ts"],
       "@epnsproject/sdk-uiembed": ["packages/uiembed/src/index.ts"],
       "@epnsproject/sdk-uiweb": ["packages/uiweb/src/index.ts"]
