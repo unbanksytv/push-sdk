@@ -1,14 +1,13 @@
 import * as React from "react";
 import * as PropTypes from "prop-types";
 import styled from "styled-components";
-import * as moment from "moment";
 
 import IPFSIcon from "../ipfsicon";
 import ImageOverlayComponent from "../overlay";
 import { ParseMarkdownText } from "../parsetext";
 import MediaHelper from "../../utilities/mediaHelper";
 import Loader from "../loader/loader";
-import { extractTimeStamp } from "../../utilities";
+import { extractTimeStamp, convertTimeStamp } from "../../utilities";
 import ChainImages from '../../constants/chain';
 import ActionButton from './styled/ActionButton';
 import { useDecrypt, DecryptButton } from './decrypt';
@@ -233,12 +232,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       <ChannelMeta hidden={!timeStamp}>
         <Pool>
           <PoolShare theme = {theme}>
-            {timeStamp
-              ? moment
-                  .utc(parseInt(timeStamp) * 1000)
-                  .local()
-                  .format("DD MMM YYYY | hh:mm A")
-              : "N/A"}
+            {timeStamp ? convertTimeStamp(timeStamp) : "N/A"}
           </PoolShare>
         </Pool>
       </ChannelMeta>
