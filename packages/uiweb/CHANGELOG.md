@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.0...uiweb-0.1.1) (2022-06-10)
+
+
+### Bug Fixes
+
+* **uiweb:** subscribe modal changes, remove react-use pkg ([bd511c8](https://github.com/ethereum-push-notification-service/epns-sdk/commit/bd511c89850bc331561a7c2958a94703f88e7065))
+
+
+
 # [0.1.0](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.0.1...uiweb-0.1.0) (2022-05-31)
 
 
