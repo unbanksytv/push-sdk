@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.2](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.1...uiweb-0.1.2) (2022-06-10)
+
+
+### Bug Fixes
+
+* **uiweb:** replace moment with date-fns ([e35943b](https://github.com/ethereum-push-notification-service/epns-sdk/commit/e35943b91debaefbba22c840c9e26910dc10077d))
+
+
+
 ## [0.1.1](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.0...uiweb-0.1.1) (2022-06-10)
 
 
