@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.2...uiweb-0.1.3) (2022-06-10)
+
+
+### Bug Fixes
+
+* **uiweb:** replace axios with fetch ([22069eb](https://github.com/ethereum-push-notification-service/epns-sdk/commit/22069eb2c24ecb0aec3e9467633538224cd87492))
+
+
+
 ## [0.1.2](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.1...uiweb-0.1.2) (2022-06-10)
 
 
