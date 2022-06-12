@@ -1,11 +1,65 @@
 # ledgerlive
+This is adapted from [Ledger's IFRAME Provider](https://www.npmjs.com/package/@ledgerhq/iframe-provider)
 
-This library was generated with [Nx](https://nx.dev).
+Used to wrap a dApp if it is running in Ledger context (inside Ledger Live) then use the Ledger Live connector.
 
-## Building
+## Installation
+```
+yarn add @epnsproject/sdk-ledgerlive
+```
 
-Run `nx build ledgerlive` to build the library.
+## Usage
 
-## Running unit tests
+### creating the connector
+```
+import { LedgerHQFrameConnector } from "@epnsproject/sdk-ledgerlive";
 
-Run `nx test ledgerlive` to execute the unit tests via [Jest](https://jestjs.io).
+const ledgerLiveConnector = new LedgerHQFrameConnector();
+```
+
+### checking for the Ledger context
+```
+import { isLedgerDappBrowserProvider } from "@epnsproject/sdk-ledgerlive";
+
+const isRunninginLedgerContext = isLedgerDappBrowserProvider(); // boolean
+```
+
+### using the ledgerLiveConnector when in ledger context
+```
+import { useWeb3React } from '@web3-react/core'
+import { isLedgerDappBrowserProvider } from '@epnsproject/sdk-ledgerlive';
+
+export const injected = new InjectedConnector({ supportedChainIds: [1, 42] })
+
+export function useEagerConnect() {
+  const { activate, active } = useWeb3React()
+
+  const [tried, setTried] = useState(false)
+
+  useEffect(() => {
+    // If is ledger dapp, use ledger connector. Else use injected connector
+    if (isLedgerDappBrowserProvider()) {
+      activate(ledgerLiveConnector, undefined, true).catch(() => {
+        setTried(true);
+      });
+    } else {
+      injected.isAuthorized().then((isAuthorized: boolean) => {
+        if (isAuthorized) {
+          activate(injected, undefined, true).catch(() => {
+            setTried(true);
+          });
+        } else {
+          setTried(true);
+        }
+      });
+    }
+
+  }, [activate])
+ 
+  .
+  .
+
+  return tried
+}
+```
+
