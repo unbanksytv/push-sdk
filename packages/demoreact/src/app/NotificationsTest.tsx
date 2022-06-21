@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Section, SectionItem } from './components/StyledComponents';
 import Loader from './components/Loader'
 import Web3Context from './web3context';
-import * as EpnsAPI from '../../../../dist/packages/restapi/src';
+import * as EpnsAPI from '@epnsproject/sdk-restapi';
 import { NotificationItem, parseApiResponse, ParsedResponseType, chainNameType, SubscribedModal } from '@epnsproject/sdk-uiweb';
 
 

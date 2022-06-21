@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Section, SectionItem, CodeFormatter } from './components/StyledComponents';
 import Loader from './components/Loader'
 import Web3Context from './web3context';
-import * as EpnsAPI from '../../../../dist/packages/restapi/src';
+import * as EpnsAPI from '@epnsproject/sdk-restapi';
 
 const ChannelsTest = () => {
   const { library, account, chainId } = useContext<any>(Web3Context);
