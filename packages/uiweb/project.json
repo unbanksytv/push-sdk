@@ -21,6 +21,10 @@
             "input": ".",
             "output": "."
           }
+        ],
+        "format": [
+          "esm",
+          "cjs"
         ]
       }
     },
