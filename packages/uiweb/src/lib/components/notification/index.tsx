@@ -363,39 +363,40 @@ const ChainIconSVG = styled.div`
 `;
 
 const MobileImage = styled.div`
+  img,
+  iframe,
+  video {
+    max-width: 100% !important;
+    height: 100% !important;
+    object-fit: fill;
+    border-radius: 10px;
+    border: 0;
+  }
+
   @media (min-width: ${SM_BREAKPOINT}) {
     border: 1px solid ${props => props.theme === 'light' ? '#ededed' : '#444'};
     border-radius: 10px;
-    
     min-width: 220px;
     width: 220px;
     height: 200px;
-    
-    img,
-    iframe,
-    video {
-      width: 100% !important;
-      height: 100% !important;
-      width: 100%;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 0;
-    }
   }
+
   @media (max-width: ${SM_BREAKPOINT}) {
     display: block;
+    width: 100%;
+    max-height: 200px;
+    margin-bottom: 12px;
+    border: 0;
+
     img,
     iframe,
     video {
       border: 0;
-      max-width: calc(100% + 24px);
-      margin-left: -24px;
-      margin-right: -24px;
-      margin-top: -12px;
-      margin-bottom: 12px;
+      border-radius: 0;
     }
   }
 `;
+
 const ImageContainer = styled.span`
   background: ${(props) => (props.theme === "light" ? "#ededed" : "#444")};
   display: inline-block;
