@@ -41,8 +41,8 @@ const ImageWrapper = styled.div<ImageWrapper>`
     display: ${(props) => props.visible ? 'flex' : 'none'};
     z-index: 2;
 
-    img{
-        width: 80vw;
+    img {
+        max-width: 80vw;
         height: auto;
         border-radius: 10px;
     }

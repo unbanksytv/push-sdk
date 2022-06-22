@@ -6,12 +6,17 @@ import Web3Context from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
 import { NotificationItem, parseApiResponse, ParsedResponseType, chainNameType, SubscribedModal } from '@epnsproject/sdk-uiweb';
 
+import sampleNotifications from './data';
 
 const NotificationListContainer = styled.div`
   margin: 20px;
   padding: 20px;
-  border: 1px solid #fgf;
   width: 100%;
+
+  @media (max-width: 600px) {
+    margin: 0;
+    padding: 0;
+  }
 `
 
 const NavButton = styled.div`
@@ -42,7 +47,10 @@ const NotificationsTest = () => {
         chainId
       });
 
-      const parsedResults = parseApiResponse(response.results);
+      const parsedResults = parseApiResponse([
+        ...response.results,
+        ...sampleNotifications
+      ]);
 
       setNotifs(parsedResults);
     } catch (e) {

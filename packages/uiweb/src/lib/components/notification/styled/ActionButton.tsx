@@ -20,6 +20,10 @@ const ActionButton = styled.button<ButtonProps>`
   &:hover {
     opacity: ${(props) => props.disabled ? '0.5' : '0.9'};
   }
+
+  @media (max-width: 600px) {
+    padding: 8px 20px;
+  }
 `;
 
 export default ActionButton;
