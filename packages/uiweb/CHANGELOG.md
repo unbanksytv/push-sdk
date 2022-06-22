@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.5](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.4...uiweb-0.1.5) (2022-06-22)
+
+
+### Bug Fixes
+
+* **uiweb:** fix some image issues in mobile view ([fd16f72](https://github.com/ethereum-push-notification-service/epns-sdk/commit/fd16f721cc473f906dc01b7a8e6620b754be668e))
+
+
+
 ## [0.1.4](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.3...uiweb-0.1.4) (2022-06-21)
 
 
