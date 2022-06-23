@@ -1,8 +1,10 @@
 
 export interface ConfigType {
   targetID: string,
+  chainId: number,
   appName: string,
   user: string,
+  headerText?: string,
   viewOptions: {
     type?: string,
     showUnreadIndicator?: boolean,
