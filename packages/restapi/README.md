@@ -52,6 +52,37 @@ Allowed Options (params with * are mandatory)
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
 
 
+<br />
+
+#### **parsing notifications**
+this is helpful in providing the Props to the [UI component](../uiweb/README.md)
+```typescript
+const apiResponse = await EpnsAPI.fetchNotifications(...);
+// OR await EpnsAPI.fetchSpamNotifications(...)
+
+const parsedResults = EpnsAPI.parseApiResponse(apiResponse);
+
+const [oneNotification] = parsedResults;
+
+const {
+  cta,
+  title,
+  message,
+  app,
+  icon,
+  image,
+  url,
+  blockchain,
+  secret,
+  notification
+} = oneNotification;
+
+```
+*We get the above `keys` after the parsing of the API repsonse.*
+
+<br />
+
+
 #### **fetching channel details**
 ```typescript
 const channelData = await EpnsAPI.getChannelByAddress({
@@ -162,8 +193,8 @@ Allowed Options (params with * are mandatory)
 
 **<sup>*</sup>EPNS communicator contract address**
 ```
-Mainnet - 0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa
-Kovan - 0x87da9Af1899ad477C67FeA31ce89c1d2435c77DC
+ETH Mainnet - 0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa
+ETH Kovan - 0x87da9Af1899ad477C67FeA31ce89c1d2435c77DC
 ```
 
 ## Development
