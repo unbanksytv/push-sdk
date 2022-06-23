@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 // Download Helper Function
-const MediaHelper = {
+export const MediaHelper = {
   // validate a CTA
   validURL: function(str : string | undefined){
     if(!str) return false;
@@ -85,5 +85,4 @@ const MediaHelper = {
   }
 }
 
-export default MediaHelper;
 

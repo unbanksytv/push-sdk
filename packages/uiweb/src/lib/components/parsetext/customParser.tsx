@@ -4,7 +4,7 @@ import HTMLReactParser from 'html-react-parser';
 
 import { ParsedTextProps } from './customParser.types';
 import TextExtraction from './lib/TextExtraction';
-import {FormatBody} from '../../utilities';
+import { FormatBody } from '../../utilities';
 
 import DEFAULT_PATTERNS from './defaultPatterns';
 

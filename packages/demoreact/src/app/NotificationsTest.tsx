@@ -4,7 +4,7 @@ import { Section, SectionItem } from './components/StyledComponents';
 import Loader from './components/Loader'
 import Web3Context from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
-import { NotificationItem, parseApiResponse, ParsedResponseType, chainNameType, SubscribedModal } from '@epnsproject/sdk-uiweb';
+import { NotificationItem, chainNameType, SubscribedModal } from '@epnsproject/sdk-uiweb';
 
 import sampleNotifications from './data';
 
@@ -32,8 +32,8 @@ const NavButton = styled.div`
 const NotificationsTest = () => {
   const { account, chainId } = useContext<any>(Web3Context);
   const [isLoading, setLoading] = useState(false);
-  const [notifs, setNotifs] = useState<ParsedResponseType[]>();
-  const [spams, setSpams] = useState<ParsedResponseType[]>();
+  const [notifs, setNotifs] = useState<EpnsAPI.ParsedResponseType[]>();
+  const [spams, setSpams] = useState<EpnsAPI.ParsedResponseType[]>();
   const [theme, setTheme] = useState('dark');
   const [viewType, setViewType] = useState('notif');
   const [showSubscribe, setShowSubscribe] = useState(false);
@@ -47,7 +47,7 @@ const NotificationsTest = () => {
         chainId
       });
 
-      const parsedResults = parseApiResponse([
+      const parsedResults = EpnsAPI.parseApiResponse([
         ...response.results,
         ...sampleNotifications
       ]);
@@ -68,7 +68,7 @@ const NotificationsTest = () => {
         chainId
       });
 
-      const parsedResults = parseApiResponse(response.results);
+      const parsedResults = EpnsAPI.parseApiResponse(response.results);
 
       setSpams(parsedResults);
   
