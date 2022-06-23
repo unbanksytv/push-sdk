@@ -12,6 +12,7 @@ import { ConfigType, MessagePayloadType, NotificationType } from './types'
 const __DEFAULT_CONFIG = {
 	isInitialized: false,
 	targetID: '', // MANDATORY
+	chainId: 1,
 	appName: '', // MANDATORY
 	user: '', // MANDATORY
 	headerText: 'Notifications',
@@ -35,6 +36,11 @@ function validateConfig(passedConfig : ConfigType) : boolean {
 	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.user not passed!`)
 	return false
   }
+
+  if (![1, 42].includes(passedConfig.chainId)) {
+	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.chainId passed is not in EPNS supported networks [1, 42]!`)
+	return false
+  }
   if (!passedConfig.targetID) {
 	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.targetID not passed!`)
 	return false
@@ -48,7 +54,7 @@ function validateConfig(passedConfig : ConfigType) : boolean {
 
 function getClonedConfig(passedConfig : ConfigType) : ConfigType {
 	let clonedConfig = {} as ConfigType
-	const viewOptionsConfig = Object.assign({}, __DEFAULT_CONFIG.viewOptions , passedConfig.viewOptions)
+	const viewOptionsConfig = Object.assign({}, __DEFAULT_CONFIG.viewOptions, passedConfig.viewOptions)
 	clonedConfig = Object.assign({}, __DEFAULT_CONFIG, passedConfig)
 	clonedConfig.viewOptions = viewOptionsConfig
 	return clonedConfig
@@ -265,8 +271,9 @@ async function refreshUnreadCount() {
 
 async function getUnreadNotifications() {
 	// call the API here
+	const apiUrl = Constants.EPNS_SDK_EMBED_API_URL[__CONFIG.chainId];
 	try {
-		const response = await fetch(Constants.EPNS_SDK_EMBED_API_URL, {
+		const response = await fetch(apiUrl, {
 			method: "POST",
 			body: JSON.stringify({
 				"user": __CONFIG.user,
@@ -287,7 +294,7 @@ async function getUnreadNotifications() {
 		  }
 
 	} catch (error) {
-		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - API Error ${Constants.EPNS_SDK_EMBED_API_URL}`, error);
+		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - API Error ${apiUrl}`, error);
 		return [];
 	}
 }

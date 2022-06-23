@@ -1,7 +1,16 @@
+export interface URLConfigType {
+  [key: number]: string
+}
+
+const URLConfig : URLConfigType = {
+  1: 'https://backend-prod.epns.io/apis/feeds/get_feeds',
+  42: 'https://backend-kovan.epns.io/apis/feeds/get_feeds'
+};
+
 export default {
 	EPNS_SDK_EMBED_NAMESPACE: '[EPNS_SDK_EMBED]',
 	EPNS_SDK_EMBED_APP_URL: 'https://ethereum-push-notification-service.github.io/embed-dapp',
-	EPNS_SDK_EMBED_API_URL: 'https://backend-kovan.epns.io/apis/feeds/get_feeds',
+	EPNS_SDK_EMBED_API_URL: URLConfig,
 	EPNS_SDK_EMBED_VIEW_ROOT: 'EPNS_SDK_EMBED_VIEW_ROOT',
 	EPNS_SDK_EMBED_STYLE_TAG_ID_PREFIX: 'EPNS_SDK_EMBED_STYLE_TAG_ID_',
 	EPNS_SDK_EMBED_IFRAME_ID: 'EPNS_SDK_EMBED_IFRAME_ID',
