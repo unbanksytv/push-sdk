@@ -1,4 +1,5 @@
 import CONFIG, { PROD, STAGING, DEV } from './config';
+import Constants from './constants';
 
 export const isEpnsSupportedNetwork = (chainId: number) : boolean => {
   return !!CONFIG[chainId];
@@ -57,3 +58,14 @@ export const PayloadProcessor = {
     return payload;
   }
 };
+
+export function checkForAliasAddress(_address: string, _chainId: number, _alias?: string) {
+  if (Constants.NON_ETH_CHAINS.includes(_chainId)) {
+    if (!_alias) {
+      throw `"channelAlias" is not provided! for chainId: ${_chainId}`
+    }
+    return _alias;
+  } else {
+    return _address;
+  }
+}

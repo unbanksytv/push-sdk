@@ -1,4 +1,4 @@
-import EmbedSDK from './embedsdk'
+import { EmbedSDK } from './embedsdk'
 
 const originalConsole = console;
 

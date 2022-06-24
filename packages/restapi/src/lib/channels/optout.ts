@@ -1,6 +1,6 @@
 import axios from "axios";
 import CONFIG from "../config";
-import { getAPIUrl } from '../helpers';
+import { getAPIUrl, checkForAliasAddress } from '../helpers';
 import {
   getTypeInformation,
   getDomainInformation,
@@ -19,6 +19,7 @@ type SignerType = {
 export type OptOutOptionsType = {
   signer: SignerType;
   channelAddress: string;
+  channelAlias?: string;
   userAddress: string;
   verifyingContractAddress?: string;
   chainId?: number;
@@ -33,6 +34,7 @@ export const optOut = async (
   const {
     signer,
     channelAddress,
+    channelAlias,
     userAddress,
     verifyingContractAddress,
     chainId = Constants.DEFAULT_CHAIN_ID,
@@ -45,6 +47,8 @@ export const optOut = async (
     CONFIG[chainId].EPNS_COMMUNICATOR_CONTRACT;
 
   try {
+    const _channelAddress = checkForAliasAddress(channelAddress, chainId, channelAlias);
+
     // get domain information
     const domainInformation = getDomainInformation(
       chainId,
@@ -56,7 +60,7 @@ export const optOut = async (
 
     // get message
     const messageInformation = getSubscriptionMessage(
-      channelAddress,
+      _channelAddress,
       userAddress,
       "Unsubscribe"
     );

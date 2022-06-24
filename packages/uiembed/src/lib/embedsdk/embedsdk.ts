@@ -333,7 +333,7 @@ function removeUnreadIndicatorElement() {
 	}
 }
 
-const EmbedSDK = {
+export const EmbedSDK = {
 	init(options: ConfigType) : boolean | undefined {
 		if (!__CONFIG.isInitialized) {
 			if (!validateConfig(options)) {
@@ -362,5 +362,3 @@ const EmbedSDK = {
 		console.info(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - cleanup called`);
 	}
 };
-
-export default EmbedSDK

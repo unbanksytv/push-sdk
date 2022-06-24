@@ -11,21 +11,21 @@ yarn add @epnsproject/sdk-ledgerlive
 ## Usage
 
 ### creating the connector
-```
+```typescript
 import { LedgerHQFrameConnector } from "@epnsproject/sdk-ledgerlive";
 
 const ledgerLiveConnector = new LedgerHQFrameConnector();
 ```
 
 ### checking for the Ledger context
-```
+```typescript
 import { isLedgerDappBrowserProvider } from "@epnsproject/sdk-ledgerlive";
 
 const isRunninginLedgerContext = isLedgerDappBrowserProvider(); // boolean
 ```
 
 ### using the ledgerLiveConnector when in ledger context
-```
+```typescript
 import { useWeb3React } from '@web3-react/core'
 import { isLedgerDappBrowserProvider } from '@epnsproject/sdk-ledgerlive';
 

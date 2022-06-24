@@ -1,1 +1,1 @@
-export * from './lib/embedsdk';
+export * from './lib';
