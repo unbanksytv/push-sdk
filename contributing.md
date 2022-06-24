@@ -18,10 +18,14 @@ We are using `yarn` and **strongly** advise to use yarn 1.x to avoid any NPM iss
 ## Running the Demo React App
 We have a `demoreact` playground to test the individual packages being built out. To run the `demoreact` app
 ### By GUI (preferred)
-1. click on the NX console extension icon in the VSCode sidebar.
+1. click on the `NX console` extension icon in the VSCode sidebar.
 2. click on the `build` target execute icon under `demoreact`
 3. click on the `serve` target execute icon under `demoreact`
 4. wait for the localhost to be ready in the terminal & then hit `http://localhost:4200/` on your browser to run the app.
+
+### By CLI
+1. run `yarn nx build demoreact`
+2. run `yarn nx run demoreact:build:production`
 
 ## Pull Requests process
 - All changes should be requested through PRs from a feature/bug branch to `main` branch.

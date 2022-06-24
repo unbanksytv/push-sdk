@@ -12,7 +12,8 @@ const Constants = {
     PAGE_SIZE: 10
   },
   DEFAULT_CHAIN_ID: 42,
-  DEV_CHAIN_ID: 99999
+  DEV_CHAIN_ID: 99999,
+  NON_ETH_CHAINS: [137, 80001]
 };
 
 export default Constants;
