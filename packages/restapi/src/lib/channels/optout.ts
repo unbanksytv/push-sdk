@@ -24,7 +24,7 @@ export type OptOutOptionsType = {
   verifyingContractAddress?: string;
   chainId?: number;
   onSuccess?: () => void
-  onError?: () => void,
+  onError?: (err: Error) => void,
   dev?: boolean
 }
 
@@ -87,9 +87,9 @@ export const optOut = async (
     if (typeof onSuccess === 'function') onSuccess();
 
     return { status: "success", message: "successfully opted out the channel" };
-  } catch ({ message }) {
-    if (typeof onError === 'function') onError();
+  } catch (err) {
+    if (typeof onError === 'function') onError(err as Error);
 
-    return { status: "error", message };
+    return { status: "error", message: err instanceof Error ? err.message : JSON.stringify(err) };
   }
 }
