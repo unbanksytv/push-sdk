@@ -23,7 +23,7 @@ export type NotificationItemProps = {
   icon: string | undefined;
   image: string | undefined;
   url: string | undefined;
-  isSpam: boolean | undefined;
+  isSpam?: boolean;
   subscribeFn?: () => Promise<unknown>;
   isSubscribedFn?: () => Promise<unknown>;
   theme: string | undefined;

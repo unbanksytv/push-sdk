@@ -155,10 +155,6 @@ const NotificationsTest = () => {
                       icon={icon}
                       image={image}
                       url={url}
-                      // optional parameters for rendering spambox
-                      isSpam={false}
-                      subscribeFn={async () => console.log("yayy")}
-                      isSubscribedFn={async () => false}
                       theme={theme}
                       // chainName="ETH_TEST_KOVAN"
                       chainName={blockchain as chainNameType}
@@ -192,7 +188,7 @@ const NotificationsTest = () => {
 
                   return (
                     <NotificationItem
-                    key={`spam-${i}`}
+                      key={`spam-${i}`}
                       notificationTitle={secret ? notification['title'] : title}
                       notificationBody={secret ? notification['body'] : message}
                       cta={cta}
