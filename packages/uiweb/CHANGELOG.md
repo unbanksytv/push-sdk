@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.7](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.6...uiweb-0.1.7) (2022-06-30)
+
+
+### Bug Fixes
+
+* **uiweb:** readme update, spam prop optionality ([6d282b7](https://github.com/ethereum-push-notification-service/epns-sdk/commit/6d282b732441095dddea6c59b5304ad5ecb0a013))
+
+
+
 ## [0.1.6](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.5...uiweb-0.1.6) (2022-06-23)
 
 
