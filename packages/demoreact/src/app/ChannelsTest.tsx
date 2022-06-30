@@ -42,6 +42,7 @@ const ChannelsTest = () => {
       setLoading(true);
       const response = await EpnsAPI.getSubscribers({
         channel: channelAddr,
+        channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
         chainId
       });
   
@@ -64,6 +65,7 @@ const ChannelsTest = () => {
 
     const response = await EpnsAPI.isUserSubscribed({
       channel: channelAddr,
+      channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
       user: account,
       chainId
     });
@@ -81,28 +83,30 @@ const ChannelsTest = () => {
         await EpnsAPI.optOut({
           signer: _signer,
           channelAddress: channelAddr,
+          channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
           userAddress: account,
           chainId,
           onSuccess: () => {
             console.log('opt out success');
             setSubscriberStatus(false);
           },
-          onError: () => {
-            console.error('opt out error');
+          onError: (e) => {
+            console.error('opt out error', e);
           },
         })
       } else {
         await EpnsAPI.optIn({
           signer: _signer,
           channelAddress: channelAddr,
+          channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
           userAddress: account,
           chainId,
           onSuccess: () => {
             console.log('opt in success');
             setSubscriberStatus(true);
           },
-          onError: () => {
-            console.error('opt in error');
+          onError: (e) => {
+            console.error('opt in error', e);
           },
         })
       }

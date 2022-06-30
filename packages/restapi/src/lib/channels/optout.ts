@@ -1,6 +1,5 @@
 import axios from "axios";
-import CONFIG from "../config";
-import { getAPIUrl, checkForAliasAddress } from '../helpers';
+import { getConfig, checkForAliasAddress } from '../helpers';
 import {
   getTypeInformation,
   getDomainInformation,
@@ -43,16 +42,15 @@ export const optOut = async (
     onError,
   } = options || {};
 
-  const contractAddress = verifyingContractAddress || 
-    CONFIG[chainId].EPNS_COMMUNICATOR_CONTRACT;
-
   try {
+    const apiEndpoint = Constants.API_ENDPOINTS.SUBSCRIBE_OFFCHAIN_API;
     const _channelAddress = checkForAliasAddress(channelAddress, chainId, channelAlias);
+    const [apiUrl, , contractAddress] = getConfig(chainId, apiEndpoint, dev);
 
     // get domain information
     const domainInformation = getDomainInformation(
       chainId,
-      contractAddress
+      verifyingContractAddress || contractAddress
     );
 
     // get type information
@@ -72,8 +70,6 @@ export const optOut = async (
       messageInformation
     );
 
-    const apiEndpoint = Constants.API_ENDPOINTS.UNSUBSCRIBE_OFFCHAIN_API;
-    const [apiUrl] = getAPIUrl(chainId, apiEndpoint, dev);
     const body = {
       signature,
       message: messageInformation,

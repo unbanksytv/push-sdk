@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAPIUrl, PayloadProcessor } from '../helpers';
+import { getConfig, PayloadProcessor } from '../helpers';
 import Constants from '../constants';
 
 export type GetChannelOptionsType = {
@@ -24,7 +24,7 @@ export const getChannelByAddress = async (
   if (!channel) throw Error('"channel" not provided!');
 
   const apiEndpoint = Constants.API_ENDPOINTS.CHANNELS_SEARCH_API;
-  const [apiUrl, _chainId] = getAPIUrl(chainId, apiEndpoint, dev);
+  const [apiUrl, _chainId] = getConfig(chainId, apiEndpoint, dev);
 
   const payload = { query: channel, op: "read", page, pageSize }
 

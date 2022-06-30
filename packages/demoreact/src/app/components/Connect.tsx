@@ -10,11 +10,13 @@ interface NwMappingType {
 const NETWORK_MAPPING : NwMappingType = {
   1: 'ETH_MAIN_NET',
   42: 'KOVAN',
-  3: 'ROPSTEN'
+  3: 'ROPSTEN',
+  37: 'POLYGON_MAINNET',
+  80001: 'POLYGON_MUMBAI'
 };
 
 const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42],
+  supportedChainIds: [1, 3, 4, 5, 42, 37, 80001],
 })
 
 const Wrapper = styled.div`
