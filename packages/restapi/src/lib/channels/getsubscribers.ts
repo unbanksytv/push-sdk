@@ -25,7 +25,7 @@ export const getSubscribers = async (
   const apiEndpoint = Constants.API_ENDPOINTS.GET_SUBSCRIBERS_API;
   const [apiUrl] = getConfig(chainId, apiEndpoint, dev);
 
-  const body = { channel: _channelAddress, op: "read" };
+  const body = { channel: _channelAddress, op: "read", blockchain: chainId };
 
   const apiResponse = await axios.post(apiUrl, body);
 

@@ -113,6 +113,7 @@ Allowed Options (params with * are mandatory)
 | Param    | Type    | Default | Remarks                                    |
 |----------|---------|---------|--------------------------------------------|
 | channel*    | string  | -       | channel address                       |
+| channelAlias | string | - |  alias for the original channel address, REQUIRED ONLY if on non ETH network      |
 | chainId  | number  | 42      | ETH network chainId [Mainnet - 1, Kovan - 42, etc]                       |
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
 
@@ -131,6 +132,7 @@ Allowed Options (params with * are mandatory)
 |----------|---------|---------|--------------------------------------------|
 | channel*    | string  | -       | channel address                       |
 | user*    | string  | -       | user address                       |
+| channelAlias | string | - |  alias for the original channel address, REQUIRED ONLY if on non ETH network      |
 | chainId  | number  | 42      | ETH network chainId [Mainnet - 1, Kovan - 42, etc]                       |
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
 
@@ -157,6 +159,7 @@ Allowed Options (params with * are mandatory)
 | signer*    | -  | -       | Signer object                       |
 | channelAddress*    | string  | -       | channel address                       |
 | userAddress*    | string  | -       | user address                       |
+| channelAlias | string | - |  alias for the original channel address, REQUIRED ONLY if on non ETH network      |
 | chainId  | number  | 42      | ETH network chainId [Mainnet - 1, Kovan - 42, etc]                       |
 | verifyingContractAddress      | string | - | EPNS communicator contract address|
 | onSuccess      | function | -   | on success callback |
@@ -185,6 +188,7 @@ Allowed Options (params with * are mandatory)
 | signer*    | -  | -       | Signer object                       |
 | channelAddress*    | string  | -       | channel address                       |
 | userAddress*    | string  | -       | user address                       |
+| channelAlias | string | - |  alias for the original channel address, REQUIRED ONLY if on non ETH network      |
 | chainId  | number  | 42      | ETH network chainId [Mainnet - 1, Kovan - 42, etc]                       |
 | verifyingContractAddress      | string | - | EPNS communicator contract address|
 | onSuccess      | function | -   | on success callback |
