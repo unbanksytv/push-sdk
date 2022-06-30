@@ -42,7 +42,7 @@ const ChannelsTest = () => {
       setLoading(true);
       const response = await EpnsAPI.getSubscribers({
         channel: channelAddr,
-        channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
+        channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
         chainId
       });
   
@@ -65,7 +65,7 @@ const ChannelsTest = () => {
 
     const response = await EpnsAPI.isUserSubscribed({
       channel: channelAddr,
-      channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
+      channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
       user: account,
       chainId
     });
@@ -83,7 +83,7 @@ const ChannelsTest = () => {
         await EpnsAPI.optOut({
           signer: _signer,
           channelAddress: channelAddr,
-          channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
+          channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
           userAddress: account,
           chainId,
           onSuccess: () => {
@@ -98,7 +98,7 @@ const ChannelsTest = () => {
         await EpnsAPI.optIn({
           signer: _signer,
           channelAddress: channelAddr,
-          channelAlias: [80001, 37].includes(chainId) ? channelAddr : channelAddr, // todo - change to alias address
+          channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
           userAddress: account,
           chainId,
           onSuccess: () => {
