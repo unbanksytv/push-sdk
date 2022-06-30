@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.1](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.0...restapi-0.1.1) (2022-06-30)
+
+
+### Bug Fixes
+
+* **restapi:** update docs, add blockchain key to getsubscribers ([d968ae5](https://github.com/ethereum-push-notification-service/epns-sdk/commit/d968ae5423d90ddb9950841d7739f0eed663f967))
+
+
+
 # [0.1.0](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.0.8...restapi-0.1.0) (2022-06-30)
 
 
