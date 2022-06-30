@@ -1,37 +1,39 @@
-import CONFIG, { PROD, STAGING, DEV } from './config';
+import CONFIG, { 
+  ETH_MAINNET, 
+  POLYGON_MAINNET, 
+  PROD, STAGING,
+  DEV,
+  ConfigType
+} from './config';
 import Constants from './constants';
 
-export const isEpnsSupportedNetwork = (chainId: number) : boolean => {
-  return !!CONFIG[chainId];
+export const getEpnsSupportedNetwork = (chainId: number, isDev?: boolean) : ConfigType => {
+  // for Mainnet
+  if ([ETH_MAINNET, POLYGON_MAINNET].includes(chainId)) {
+    return CONFIG[chainId][PROD];
+  }
+
+  // if explicitly passed "dev: true"
+  if (isDev) {
+    return CONFIG[chainId][DEV];
+  }
+
+  // by default
+  return CONFIG[chainId][STAGING];
 };
 
-export const getAPIUrl = (
+export const getConfig = (
   chainId: number,
   API_ENDPOINT: string,
   isDev?: boolean
-) : [string, number] => {
-  let nwSelector = STAGING; // default N/W
+) : [string, number, string] => {
+  const supportedNW = getEpnsSupportedNetwork(chainId, isDev);
 
-  if (!isDev) {
-    const isSupported = isEpnsSupportedNetwork(chainId);
-    if (!isSupported) throw Error(`[EPNS-SDK] - ${API_ENDPOINT}: "chainId" passed is not supported!`)
-    nwSelector = chainId;
-  } else {
-    /**
-     * when "dev": true is passed.
-     * In our "dApp-dev" we connect to dev database
-     */
-    nwSelector =  DEV;
-  }
+  if (!supportedNW) throw Error(`[EPNS-SDK] - ${API_ENDPOINT}: "chainId" passed is not supported!`)
 
-  const baseApiUrl = CONFIG[nwSelector].API_BASE_URL;
-  const apiUrl = `${baseApiUrl}/${API_ENDPOINT}`;
+  const { API_BASE_URL, EPNS_COMMUNICATOR_CONTRACT } = supportedNW;
 
-  /**
-   * send the formulated full apiUrl &
-   * the chainId derived from passed chainId & dev:bool options
-   */
-  return [apiUrl, nwSelector];
+  return [`${API_BASE_URL}/${API_ENDPOINT}`, chainId, EPNS_COMMUNICATOR_CONTRACT];
 };
 
 export type ChannelsSearchAPIPayloadType = {
@@ -51,7 +53,7 @@ export const PayloadProcessor = {
   ) {
     const { query, op } = payload || {};
 
-    if (chainId === PROD) {
+    if ([ETH_MAINNET, POLYGON_MAINNET].includes(chainId)) {
       return { query, op }
     }
 

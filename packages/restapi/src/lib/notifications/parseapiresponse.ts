@@ -1,5 +1,5 @@
 // the type for the the response of the input data to be parsed
-export type ApiNotificationType =   {
+export type ApiNotificationType = {
     "payload_id": number,
     "channel": string,
     "epoch": string,

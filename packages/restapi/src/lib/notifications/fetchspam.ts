@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAPIUrl } from '../helpers';
+import { getConfig } from '../helpers';
 import Constants from '../constants';
 
 export type SpamNotificationsOptionsType = {
@@ -24,7 +24,7 @@ export const fetchSpamNotifications = async (
   if (!user) throw Error('"user" not provided!')
 
   const apiEndpoint = Constants.API_ENDPOINTS.SPAM_FEEDS_API;
-  const [apiUrl] = getAPIUrl(chainId, apiEndpoint, dev);
+  const [apiUrl] = getConfig(chainId, apiEndpoint, dev);
   const body = { user, page, pageSize, op: "read" };
 
   return axios.post(apiUrl, body)

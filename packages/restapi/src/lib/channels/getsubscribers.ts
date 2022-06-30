@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAPIUrl, checkForAliasAddress } from '../helpers';
+import { getConfig, checkForAliasAddress } from '../helpers';
 import Constants from '../constants';
 
 export type GetSubscribersOptionsType = {
@@ -23,7 +23,7 @@ export const getSubscribers = async (
   const _channelAddress = checkForAliasAddress(channel, chainId, channelAlias);
 
   const apiEndpoint = Constants.API_ENDPOINTS.GET_SUBSCRIBERS_API;
-  const [apiUrl] = getAPIUrl(chainId, apiEndpoint, dev);
+  const [apiUrl] = getConfig(chainId, apiEndpoint, dev);
 
   const body = { channel: _channelAddress, op: "read" };
 
