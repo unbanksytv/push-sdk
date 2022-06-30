@@ -12,6 +12,18 @@ Package for React based UI web components to be used by dApp.
 ```
   npm install @epnsproject/sdk-uiweb  
 ```
+<br />
+
+***Note:***  `styled-components` is a `peerDependency`. Please install it in your dApp if you don't have it already!
+```
+  yarn add styled-components
+```
+  or
+```
+  npm install styled-components  
+```
+
+<br />
 
 ### Notification Item component
 
