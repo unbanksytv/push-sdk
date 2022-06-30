@@ -118,6 +118,11 @@ Allowed Options (params with * are mandatory)
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
 
 
+If you are getting the `channelData` from [getChannelByAddress](#fetching-channel-details) then you can get the alias address as follows -
+```typescript
+channelAlias = channelData['alias_address']
+```
+
 #### **check if user is subscribed to a channel**
 ```typescript
 const subscriberStatus = await EpnsAPI.isUserSubscribed({
@@ -136,6 +141,11 @@ Allowed Options (params with * are mandatory)
 | chainId  | number  | 42      | ETH network chainId [Mainnet - 1, Kovan - 42, etc]                       |
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
 
+
+If you are getting the `channelData` from [getChannelByAddress](#fetching-channel-details) then you can get the alias address as follows -
+```typescript
+channelAlias = channelData['alias_address']
+```
 
 #### **opt in to a channel**
 ```typescript
@@ -167,6 +177,11 @@ Allowed Options (params with * are mandatory)
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
 
 
+If you are getting the `channelData` from [getChannelByAddress](#fetching-channel-details) then you can get the alias address as follows -
+```typescript
+channelAlias = channelData['alias_address']
+```
+
 #### **opt out to a channel**
 ```typescript
 await EpnsAPI.optOut({
@@ -194,6 +209,12 @@ Allowed Options (params with * are mandatory)
 | onSuccess      | function | -   | on success callback |
 | onError      | function | -   | on error callback |
 | dev      | boolean | false   | Pass this if you need to use EPNS dev APIs |
+
+If you are getting the `channelData` from [getChannelByAddress](#fetching-channel-details) then you can get the alias address as follows -
+```typescript
+channelAlias = channelData['alias_address']
+```
+
 
 **<sup>*</sup>EPNS communicator contract address**
 ```
