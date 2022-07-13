@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.8](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.7...uiweb-0.1.8) (2022-07-13)
+
+
+### Bug Fixes
+
+* **uiweb:** add word break to fix the word overflow ([49ef634](https://github.com/ethereum-push-notification-service/epns-sdk/commit/49ef6341e31009af742965de37618cbc26f28648))
+
+
+
 ## [0.1.7](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiweb-0.1.6...uiweb-0.1.7) (2022-06-30)
 
 
