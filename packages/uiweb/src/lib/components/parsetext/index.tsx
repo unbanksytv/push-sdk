@@ -8,7 +8,7 @@ export const ParseMarkdownText: React.FC<ParseMarkdownTextProps> = (props) => {
     const actualPatters:CustomParseShape[] = patterns || [];
 
     return (
-      <div>
+      <div style={{ wordBreak: 'break-all' }}>
         <ParsedText
           patterns={actualPatters}
         >
