@@ -8,7 +8,6 @@ import { FormatBody } from '../../utilities';
 
 import DEFAULT_PATTERNS from './defaultPatterns';
 
-
 const ParseMarkDown: React.FC<ParsedTextProps> = (props) => {
     const { patterns, ...remainder } = { ...props };
 
@@ -36,7 +35,7 @@ const ParseMarkDown: React.FC<ParsedTextProps> = (props) => {
           return (
             <span
               key={`parsedText-${index}`}
-              style={{... style}}
+              style={{ ...style }}
               {...props.childrenProps}
             >
               {
