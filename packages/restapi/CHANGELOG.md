@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.2...restapi-0.1.3) (2022-07-14)
+
+
+### Bug Fixes
+
+* **restapi:** fix the unsubscribe API endpoint ([a07e0ce](https://github.com/ethereum-push-notification-service/epns-sdk/commit/a07e0cea93b3f9da0547475b5f7970cb82b87eee))
+
+
+
 ## [0.1.2](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.1...restapi-0.1.2) (2022-06-30)
 
 
