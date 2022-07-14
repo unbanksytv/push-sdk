@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
 import { Section, SectionItem } from './components/StyledComponents';
-import Loader from './components/Loader'
+import Loader from './components/Loader';
+import { DarkIcon, LightIcon } from './components/Icons';
 import Web3Context from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
 import { NotificationItem, chainNameType, SubscribedModal } from '@epnsproject/sdk-uiweb';
@@ -27,6 +28,12 @@ const NavButton = styled.div`
   & button {
     margin-right: 15px;
   }
+`;
+
+const ThemeSelector = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  height: 32px;
 `;
 
 const NotificationsTest = () => {
@@ -105,21 +112,22 @@ const NotificationsTest = () => {
   return (
       <div>
         <h2>Notifications Test page</h2>
-        <button onClick={toggleTheme}>{theme === 'dark' ? 'Dark Theme' : 'Light Theme'}</button>
-        
-        
-        <hr />
-        <button onClick={toggleSubscribedModal}>show subscribed modal</button>
-        {showSubscribe ? <SubscribedModal onClose={toggleSubscribedModal}/> : null}
-        
+
+        <ThemeSelector>
+          {theme === 'dark' ? <DarkIcon title="Dark" onClick={toggleTheme}/> : <LightIcon title="Light" onClick={toggleTheme}/>}
+        </ThemeSelector>
+                
         <hr />
         <NavButton>
           <button onClick={() => { setViewType('notif') }}>Notifications</button>
           <button onClick={() => { setViewType('spam') }}>Spam</button>
+          <button onClick={toggleSubscribedModal}>show subscribed modal</button>
         </NavButton>
         <hr />
 
         <Loader show={isLoading} />
+
+        {showSubscribe ? <SubscribedModal onClose={toggleSubscribedModal}/> : null}
 
         <Section theme={theme}>
           {viewType === 'notif' ? (

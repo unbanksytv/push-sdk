@@ -43,7 +43,7 @@ export const optOut = async (
   } = options || {};
 
   try {
-    const apiEndpoint = Constants.API_ENDPOINTS.SUBSCRIBE_OFFCHAIN_API;
+    const apiEndpoint = Constants.API_ENDPOINTS.UNSUBSCRIBE_OFFCHAIN_API;
     const _channelAddress = checkForAliasAddress(channelAddress, chainId, channelAlias);
     const [apiUrl, , contractAddress] = getConfig(chainId, apiEndpoint, dev);
 

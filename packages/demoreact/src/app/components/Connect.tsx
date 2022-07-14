@@ -9,8 +9,8 @@ interface NwMappingType {
 
 const NETWORK_MAPPING : NwMappingType = {
   1: 'ETH_MAIN_NET',
-  42: 'KOVAN',
-  3: 'ROPSTEN',
+  42: 'ETH_KOVAN',
+  3: 'ETH_ROPSTEN',
   37: 'POLYGON_MAINNET',
   80001: 'POLYGON_MUMBAI'
 };
@@ -19,7 +19,7 @@ const injected = new InjectedConnector({
   supportedChainIds: [1, 3, 4, 5, 42, 37, 80001],
 })
 
-const Wrapper = styled.div`
+const ConnectWrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -38,6 +38,26 @@ const Wrapper = styled.div`
     margin: 5px 0;
   }
 `;
+
+const StyledButton = styled.button`
+  border: 0px;
+  outline: 0px;
+  padding: 8px 15px;
+  margin: 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+`;
+
+const Connect = styled(StyledButton)`
+  color: rgb(255, 255, 255);
+  background: rgb(103, 76, 159);
+`
+
+const Disconnect = styled(StyledButton)`
+  color: rgb(255, 255, 255);
+  background: rgb(226, 8, 128);
+`
 
 const ConnectButton = () => {
   const { active, account, activate, deactivate, chainId } = useWeb3React()
@@ -76,17 +96,17 @@ const ConnectButton = () => {
   }, [activate]);
 
   return (
-    <Wrapper>
+    <ConnectWrapper>
       {active ? (
           <>
             <p>Connected with <span className="account">{account}</span></p>
             {chainId ? <p className="network">{NETWORK_MAPPING[chainId]}</p> : null}
-            <button onClick={disconnect}>Disconnect Metamask</button>
+            <Disconnect onClick={disconnect}>Disconnect Metamask</Disconnect>
           </>
       ) : (
-        <button onClick={connect}>Connect to MetaMask</button>
+        <Connect onClick={connect}>Connect to MetaMask</Connect>
       )}
-    </Wrapper>
+    </ConnectWrapper>
   )
 };
 
