@@ -18,8 +18,25 @@ interface Web3ReactState {
 }
 
 const StyledApp = styled.div`
+  font-family: "Source Sans Pro",Arial,sans-serif;
+
+  & .homeLink {
+    text-decoration: none;
+    &: hover {
+      text-decoration: underline;
+    }
+  }
+
   & h1 {
     text-align: center;
+    text-transform: uppercase;
+    margin: 20px 0px;
+    padding: 0px;
+    letter-spacing: 0.1em;
+    font-family: "Source Sans Pro", Helvetica, sans-serif;
+    font-weight: 200;
+    font-size: 2rem;
+    line-height: 1.25em;
   }
 
   .nav-button {
@@ -70,7 +87,7 @@ export function App() {
   const web3Data : Web3ReactState = useWeb3React();
   return (
     <StyledApp>
-      <Link to="/"><h1>EPNS-SDK Demo React App</h1></Link>
+      <Link className='homeLink' to="/"><h1>EPNS-SDK Demo React App</h1></Link>
 
       <ConnectButton />
       <hr />
