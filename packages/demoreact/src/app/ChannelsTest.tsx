@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Section, SectionItem, CodeFormatter } from './components/StyledComponents';
+import { Section, SectionItem, CodeFormatter, SectionButton } from './components/StyledComponents';
 import Loader from './components/Loader'
 import Web3Context from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
@@ -57,20 +57,21 @@ const ChannelsTest = () => {
   const testSubscriberStatus = async () => {
     try {
       setLoading(true);
+      const response = await EpnsAPI.isUserSubscribed({
+        channel: channelAddr,
+        channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
+        user: account,
+        chainId
+      });
+  
+      setSubscriberStatus(response);
     } catch(e) {
       console.error(e)
     } finally {
       setLoading(false);
     }
 
-    const response = await EpnsAPI.isUserSubscribed({
-      channel: channelAddr,
-      channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
-      user: account,
-      chainId
-    });
 
-    setSubscriberStatus(response);
   };
 
   const testOptFunctionality = async () => {
@@ -147,8 +148,7 @@ const ChannelsTest = () => {
         <SectionItem>
           <div>
             <p>
-              <b>Channel Data: </b>
-              <button onClick={testGetChannel}>get channel data</button>
+              <SectionButton onClick={testGetChannel}>get channel data</SectionButton>
             </p>
             {channelData ? (
               <CodeFormatter>
@@ -157,8 +157,7 @@ const ChannelsTest = () => {
             ) : null}
 
             <p>
-              <b>Subscribers Data: </b>
-              <button onClick={testGetSubscribers}>get subscribers</button>
+              <SectionButton onClick={testGetSubscribers}>get subscribers</SectionButton>
             </p>
             {subscriberData ? (
               <CodeFormatter>
@@ -167,8 +166,7 @@ const ChannelsTest = () => {
             ) : null}
 
             <p>
-              <b>Is logged in user subscribed: </b>
-              <button onClick={testSubscriberStatus}>check</button>
+              <SectionButton onClick={testSubscriberStatus}>check if logged-in user is subscribed</SectionButton>
             </p>
             {typeof subscriberStatus === 'boolean' ? (
               <>
@@ -176,7 +174,7 @@ const ChannelsTest = () => {
                   {JSON.stringify(subscriberStatus, null, 4)}
                 </CodeFormatter>
 
-                <button onClick={testOptFunctionality}>{subscriberStatus ? 'OPT OUT' : 'OPT IN'}</button>
+                <SectionButton onClick={testOptFunctionality}>{subscriberStatus ? 'OPT OUT' : 'OPT IN'}</SectionButton>
               </>
             ) : null}
           </div>

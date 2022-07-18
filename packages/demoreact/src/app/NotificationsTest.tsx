@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useCallback } from 'react';
 import styled from 'styled-components';
-import { Section, SectionItem } from './components/StyledComponents';
+import { Section, SectionItem, SectionButton } from './components/StyledComponents';
 import Loader from './components/Loader';
 import { DarkIcon, LightIcon } from './components/Icons';
 import Web3Context from './web3context';
@@ -20,14 +20,18 @@ const NotificationListContainer = styled.div`
   }
 `
 
-const NavButton = styled.div`
-  margin: 20px 0;
-  display: flexbox;
-  flex-direction: column;
 
-  & button {
-    margin-right: 15px;
-  }
+const TabButtons = styled.div`
+  margin: 20px 0;
+  display: flex;
+  flex-direction: row;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const ThemeSelector = styled.div`
@@ -60,6 +64,8 @@ const NotificationsTest = () => {
       ]);
 
       setNotifs(parsedResults);
+
+      
     } catch (e) {
       console.error(e);
     } finally {
@@ -111,19 +117,21 @@ const NotificationsTest = () => {
 
   return (
       <div>
-        <h2>Notifications Test page</h2>
+        <Header>
+          <h2>Notifications Test page</h2>
 
-        <ThemeSelector>
-          {theme === 'dark' ? <DarkIcon title="Dark" onClick={toggleTheme}/> : <LightIcon title="Light" onClick={toggleTheme}/>}
-        </ThemeSelector>
+          {/* <TestModal /> */}
+          
+          <ThemeSelector>
+            {theme === 'dark' ? <DarkIcon title="Dark" onClick={toggleTheme}/> : <LightIcon title="Light" onClick={toggleTheme}/>}
+          </ThemeSelector>
+        </Header>
                 
-        <hr />
-        <NavButton>
-          <button onClick={() => { setViewType('notif') }}>Notifications</button>
-          <button onClick={() => { setViewType('spam') }}>Spam</button>
-          <button onClick={toggleSubscribedModal}>show subscribed modal</button>
-        </NavButton>
-        <hr />
+        <TabButtons>
+          <SectionButton onClick={() => { setViewType('notif') }}>Notifications</SectionButton>
+          <SectionButton onClick={() => { setViewType('spam') }}>Spam</SectionButton>
+          <SectionButton onClick={toggleSubscribedModal}>show subscribed modal</SectionButton>
+        </TabButtons>
 
         <Loader show={isLoading} />
 
