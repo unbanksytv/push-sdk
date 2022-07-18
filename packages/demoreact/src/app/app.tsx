@@ -3,6 +3,7 @@ import { Route, Routes, Link } from 'react-router-dom';
 import { useWeb3React } from "@web3-react/core";
 import ConnectButton from './components/Connect';
 import Web3Context from './web3context';
+import Logo from '../assets/epnsLogo.png';
 import NotificationsTest from './NotificationsTest';
 import SecretNotificationsTest from './SecretNotificationsTest';
 import ChannelsTest from './ChannelsTest';
@@ -21,6 +22,11 @@ const StyledApp = styled.div`
   font-family: "Source Sans Pro",Arial,sans-serif;
 
   & .homeLink {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
     text-decoration: none;
     &: hover {
       text-decoration: underline;
@@ -73,11 +79,17 @@ const StyledApp = styled.div`
   }
 `;
 
+const LogoImg = styled.img`
+  width: 40px;
+  height: 40px;
+`
+
 const NavMenu = styled.div`
   display: flex;
   gap: 30px;
   justify-content: center;
 `
+
 
 const checkForWeb3Data = ({ library, active, account, chainId  } : Web3ReactState) => {
   return library && active && account && chainId;
@@ -87,7 +99,10 @@ export function App() {
   const web3Data : Web3ReactState = useWeb3React();
   return (
     <StyledApp>
-      <Link className='homeLink' to="/"><h1>EPNS-SDK Demo React App</h1></Link>
+      <Link className='homeLink' to="/">
+        <LogoImg src={Logo} />
+        <h1>EPNS-SDK Demo React App</h1>
+      </Link>
 
       <ConnectButton />
       <hr />
