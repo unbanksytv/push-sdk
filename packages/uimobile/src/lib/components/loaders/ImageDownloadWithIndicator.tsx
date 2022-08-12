@@ -87,8 +87,7 @@ export const ImageDownloadWithIndicator = (props: ImageDownloadWithIndicatorProp
     // Initiate
     try {
       const downloadResult = await downloadResumable.downloadAsync();
-      // console.log("MOVING");
-      // console.log(uri);
+
       // console.log(DownloadHelper.getActualSaveLocation(fileURL));
 
       // Download completed, move file to actual location
