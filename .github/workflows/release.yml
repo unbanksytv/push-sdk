@@ -38,7 +38,7 @@ jobs:
     # The NX target "ci-version" has postTargets=[build, ci-publish]
     - name: "Version, Build, Publish"
       shell: bash
-      run: yarn nx affected --target ci-version --base= origin/main~1 --head= HEAD --parallel=1 --exclude=demoreact
+      run: yarn nx affected --target ci-version --base= origin/main~1 --head= HEAD --parallel=1 --exclude=demoreact demonative
 
     - name: "Push GIT Tags"
       env:
