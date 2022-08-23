@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Route, Routes, Link } from 'react-router-dom';
 import { useWeb3React } from "@web3-react/core";
 import ConnectButton from './components/Connect';
-import Web3Context from './web3context';
+import { Checkbox } from './components/Checkbox';
+import Web3Context, { DevContext } from './web3context';
 import Logo from '../assets/epnsLogo.png';
 import NotificationsTest from './NotificationsTest';
 import SecretNotificationsTest from './SecretNotificationsTest';
@@ -97,6 +99,12 @@ const checkForWeb3Data = ({ library, active, account, chainId  } : Web3ReactStat
 
 export function App() {
   const web3Data : Web3ReactState = useWeb3React();
+
+  const [isDevENV, setIsDevENV] = useState(false);
+  const onChange = () => {
+    setIsDevENV(!isDevENV);
+  };
+
   return (
     <StyledApp>
       <Link className='homeLink' to="/">
@@ -105,7 +113,12 @@ export function App() {
       </Link>
 
       <ConnectButton />
+
+      <Checkbox id="devEnv" value={isDevENV} onChange={onChange} label="DEV ENV"/>
+
+
       <hr />
+      <DevContext.Provider value={{ isDevENV }}>
       {checkForWeb3Data(web3Data) ? (
         <Web3Context.Provider value={web3Data}>
           <Routes>
@@ -141,6 +154,8 @@ export function App() {
           </Routes>
         </Web3Context.Provider>
       ) : null}
+      </DevContext.Provider>
+      
     </StyledApp>
   );
 }

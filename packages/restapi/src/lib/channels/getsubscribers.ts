@@ -9,6 +9,11 @@ export type GetSubscribersOptionsType = {
   dev?: boolean;
 }
 
+/**
+ * LEGACY SDK method, kept to support old functionality
+ * can be removed if not needed in future.
+ */
+
 export const getSubscribers = async (
   options: GetSubscribersOptionsType
 ) => {
@@ -21,13 +26,15 @@ export const getSubscribers = async (
   } = options || {};
 
   const _channelAddress = checkForAliasAddress(channel, chainId, channelAlias);
+  
+  const [apiEnv] = getConfig(chainId, dev);
+  const apiEndpoint = `${apiEnv}/channels/_get_subscribers`;
 
-  const apiEndpoint = Constants.API_ENDPOINTS.GET_SUBSCRIBERS_API;
-  const [apiUrl] = getConfig(chainId, apiEndpoint, dev);
+  const requestUrl = `${apiEndpoint}`;
 
   const body = { channel: _channelAddress, op: "read", blockchain: chainId };
 
-  const apiResponse = await axios.post(apiUrl, body);
+  const apiResponse = await axios.post(requestUrl, body);
 
   const { data: { subscribers = [] } } = apiResponse;
 
