@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getConfig, checkForAliasAddress } from '../helpers';
+import { getConfig, checkForAliasAddress, getCAIPFormat } from '../helpers';
 import {
   getTypeInformation,
   getDomainInformation,
@@ -15,7 +15,7 @@ type SignerType = {
   ) => Promise<string>
 }
  
-export type OptOutOptionsType = {
+export type SubscribeOptionsType = {
   signer: SignerType;
   channelAddress: string;
   channelAlias?: string;
@@ -27,8 +27,8 @@ export type OptOutOptionsType = {
   dev?: boolean
 }
 
-export const optOut = async (
- options: OptOutOptionsType
+export const subscribe = async (
+ options: SubscribeOptionsType
 ) => {
   const {
     signer,
@@ -43,9 +43,12 @@ export const optOut = async (
   } = options || {};
 
   try {
-    const apiEndpoint = Constants.API_ENDPOINTS.UNSUBSCRIBE_OFFCHAIN_API;
     const _channelAddress = checkForAliasAddress(channelAddress, chainId, channelAlias);
-    const [apiUrl, , contractAddress] = getConfig(chainId, apiEndpoint, dev);
+    const channelAddressInCAIP = getCAIPFormat(chainId, _channelAddress);
+    const [apiEnv, ,contractAddress] = getConfig(chainId, dev);
+    const userAddressInCAIP = getCAIPFormat(chainId, userAddress);
+
+    const requestUrl = `${apiEnv}/v1/channels/${channelAddressInCAIP}/subscribe`;
 
     // get domain information
     const domainInformation = getDomainInformation(
@@ -54,13 +57,13 @@ export const optOut = async (
     );
 
     // get type information
-    const typeInformation = getTypeInformation("Unsubscribe");
+    const typeInformation = getTypeInformation("Subscribe");
 
     // get message
     const messageInformation = getSubscriptionMessage(
       _channelAddress,
       userAddress,
-      "Unsubscribe"
+      "Subscribe"
     );
 
     // sign a message using EIP712
@@ -70,19 +73,22 @@ export const optOut = async (
       messageInformation
     );
 
+    const verificationProof = signature; // might change
+
     const body = {
-      signature,
-      message: messageInformation,
-      op: "write",
-      chainId,
-      contractAddress,
+      verificationProof,
+      message: {
+        ...messageInformation,
+        channel: channelAddressInCAIP,
+        subscriber: userAddressInCAIP
+      },
     };
 
-    await axios.post(apiUrl, body);
+    await axios.post(requestUrl, body);
 
     if (typeof onSuccess === 'function') onSuccess();
 
-    return { status: "success", message: "successfully opted out the channel" };
+    return { status: "success", message: "successfully opted into channel" };
   } catch (err) {
     if (typeof onError === 'function') onError(err as Error);
 
