@@ -2,6 +2,16 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.4](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.3...restapi-0.1.4) (2022-08-25)
+
+
+### Bug Fixes
+
+* **restapi:** aPI endpoint, SDK naming convention changes, readme update ([4f9aef0](https://github.com/ethereum-push-notification-service/epns-sdk/commit/4f9aef09eb54843706c11d3abbc98067e037248a))
+* **restapi:** new api changes added to sdk ([a796f37](https://github.com/ethereum-push-notification-service/epns-sdk/commit/a796f372c1fe7ec20d672e8ee2b835c0f457d61d))
+
+
+
 ## [0.1.3](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.2...restapi-0.1.3) (2022-07-14)
 
 
