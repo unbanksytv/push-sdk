@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { Section, SectionItem, SectionItemCustom, CodeFormatter, SectionButton } from './components/StyledComponents';
+import { Section, SectionItem, CodeFormatter, SectionButton } from './components/StyledComponents';
 import Loader from './components/Loader'
 import Web3Context, { DevContext } from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
@@ -31,11 +31,14 @@ const ChannelsTest = () => {
   const testGetChannelByAddress = async () => {
     try {
       setLoading(true);
-      const response = await EpnsAPI.channels.getChannelByAddress({
+
+      // object for channel data
+      const response = await EpnsAPI.channels.getChannel({
         channel: channelAddr,
         chainId,
         dev: isDevENV
       });
+      
       setChannelData(response);
     } catch (e) {
       console.error(e);
@@ -47,8 +50,10 @@ const ChannelsTest = () => {
   const testGetChannelByName = async () => {
     try {
       setLoading(true);
-      const response = await EpnsAPI.channels.getChannelByName({
-        channelName: channelName,
+
+      // Array for channels data
+      const response = await EpnsAPI.channels.search({
+        query: channelName,
         chainId,
         dev: isDevENV
       });
@@ -63,7 +68,7 @@ const ChannelsTest = () => {
   const testGetSubscribers = async () => {
     try {
       setLoading(true);
-      const response = await EpnsAPI.channels.getSubscribers({
+      const response = await EpnsAPI.channels._getSubscribers({
         channel: channelAddr,
         channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
         chainId,
@@ -81,16 +86,15 @@ const ChannelsTest = () => {
   const testSubscriberStatus = async () => {
     try {
       setLoading(true);
-      const response = await EpnsAPI.user.isSubscribedToChannel({
-        channel: channelAddr,
+      const subscriptions = await EpnsAPI.user.getSubscriptions({
         user: account,
         chainId,
         dev: isDevENV
       });
 
-      console.warn('testSubscriberStatus: ', response);
+      const status = subscriptions.map((sub: any) => sub.channel).includes(channelAddr);
   
-      setSubscriberStatus(response);
+      setSubscriberStatus(status);
     } catch(e) {
       console.error(e)
     } finally {

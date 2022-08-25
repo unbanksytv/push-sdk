@@ -1,7 +1,7 @@
 const Constants = {
   PAGINATION: {
     INITIAL_PAGE: 1,
-    LIMIT: 20,
+    LIMIT: 10,
     LIMIT_MIN: 1,
     LIMIT_MAX: 50
   },

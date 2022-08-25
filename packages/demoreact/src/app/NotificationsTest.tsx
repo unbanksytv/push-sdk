@@ -54,18 +54,16 @@ const NotificationsTest = () => {
   const loadNotifications = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await EpnsAPI.user.getFeeds({
+      const feeds = await EpnsAPI.user.getFeeds({
         user: account,
+        // user: '0xD8634C39BBFd4033c0d3289C4515275102423681',
         chainId,
         dev: isDevENV
       });
 
-      const parsedResults = EpnsAPI.utils.parseApiResponse([
-        ...response.results,
-        // ...sampleNotifications
-      ]);
+      console.log('feeds: ', feeds);
 
-      setNotifs(parsedResults);
+      setNotifs(feeds);
 
     } catch (e) {
       console.error(e);
@@ -77,16 +75,14 @@ const NotificationsTest = () => {
   const loadSpam = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await EpnsAPI.user.getFeeds({
+      const spams = await EpnsAPI.user.getFeeds({
         user: account,
         chainId,
         spam: true,
         dev: isDevENV
       });
 
-      const parsedResults = EpnsAPI.utils.parseApiResponse(response.results);
-
-      setSpams(parsedResults);
+      setSpams(spams);
   
     } catch (e) {
       console.error(e);

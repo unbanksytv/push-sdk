@@ -30,7 +30,7 @@ export const getSubscriptions = async (
   const requestUrl = `${apiEndpoint}`;
 
   return axios.get(requestUrl)
-    .then((response) => response.data?.subscriptions)
+    .then((response) => response.data?.subscriptions || [])
     .catch((err) => {
       console.error(`[EPNS-SDK] - API ${requestUrl}: `, err);
     });

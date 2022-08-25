@@ -44,7 +44,7 @@ export type ApiNotificationType = {
             "title": string
         }
     },
-    "blockchain": string
+    "source": string
 }
 
 // The output response from parsing a notification object

@@ -22,7 +22,7 @@ export function parseApiResponse(response: ApiNotificationType[]): ParsedRespons
         },
         notification,
       },
-      blockchain,
+      source,
     } = apiNotification;
 
     return {
@@ -34,7 +34,7 @@ export function parseApiResponse(response: ApiNotificationType[]): ParsedRespons
       sid,
       app,
       image: aimg,
-      blockchain,
+      blockchain: source,
       notification,
       secret
     };

@@ -14,9 +14,19 @@ export type GetSubscribersOptionsType = {
  * can be removed if not needed in future.
  */
 
-export const getSubscribers = async (
+const deprecationWarning = `
+ [EPNS-SDK]: _getSubscribers() Deprecation Warning!
+ This method has been deprecated, please use the below alternatives
+ if you need to,
+  * to check if user is subscribed or not: user.getSubscriptions()
+  * get channels count: channels.getChannels()
+`;
+
+export const _getSubscribers = async (
   options: GetSubscribersOptionsType
 ) => {
+
+  console.warn(deprecationWarning);
 
   const {
     channel,
