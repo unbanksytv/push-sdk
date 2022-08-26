@@ -12,12 +12,21 @@ export const Section = styled.section`
     color: ${(props) => props.theme === 'dark' ? '#fff' : '#000'};
     font-size: 2rem;
   }
+
+  & .subHeaderText {
+    color: ${(props) => props.theme === 'dark' ? '#fff' : '#000'};
+    font-size: 1.2rem;
+  }
 `
 
 export const SectionItem = styled.div`
   display: flex;
   gap: 15px;
   align-items: center;
+
+  & label {
+    color: green;
+  }
 `;
 
 export const SectionItemCustom = styled(SectionItem)`

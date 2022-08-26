@@ -10,6 +10,7 @@ import NotificationsTest from './NotificationsTest';
 import SecretNotificationsTest from './SecretNotificationsTest';
 import ChannelsTest from './ChannelsTest';
 import EmbedTest from './EmbedTest';
+import PayloadsTest from './PayloadsTest';
 
 
 interface Web3ReactState {
@@ -129,6 +130,7 @@ export function App() {
                   <Link to="/notifications" className='nav-button'>NOTIFICATIONS</Link>
                   <Link to="/secret" className='nav-button'>SECRET NOTIFICATION</Link>
                   <Link to="/channels" className='nav-button'>CHANNELS</Link>
+                  <Link to="/payloads" className='nav-button'>PAYLOADS</Link>
                   <Link to="/embed" className='nav-button'>EMBDED</Link>
                 </NavMenu>
               }
@@ -145,6 +147,11 @@ export function App() {
             <Route
               path="/channels"
               element={<ChannelsTest />}
+            />
+
+            <Route
+              path="/payloads"
+              element={<PayloadsTest />}
             />
 
             <Route
