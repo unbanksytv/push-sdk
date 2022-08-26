@@ -58,6 +58,7 @@ const NotificationsTest = () => {
         user: account,
         // user: '0xD8634C39BBFd4033c0d3289C4515275102423681',
         chainId,
+        limit: 30,
         dev: isDevENV
       });
 
