@@ -112,7 +112,7 @@ Allowed Options (params with * are mandatory)
 
 #### **searching for channel(s)**
 ```typescript
-const subscribers = await EpnsAPI.channels.search({
+const channelsData = await EpnsAPI.channels.search({
   query: 'epns', // a search query
   page: 1, // page index
   limit: 20, // no of items per page
