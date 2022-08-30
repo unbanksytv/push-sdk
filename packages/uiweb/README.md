@@ -36,8 +36,8 @@ After you get the Notification data from the [API](../restapi/README.md#fetching
 
 ```typescript
 const notifications = await EpnsAPI.user.getFeeds({
-  user: '0xabc123', // user address
-  chainId: 1 // ETH network chain ID
+  user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+  env: 'staging'
 });
 ```
 
@@ -79,14 +79,14 @@ For Spam data [API](../restapi/README.md#fetching-user-spam-notifications)
 
 ```typescript
 const spams = await EpnsAPI.user.getFeeds({
-  user: '0xabc123', // user address,
+  user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
   spam: true,
-  chainId: 1 // ETH network chain ID
+  env: 'staging'
 });
 ```
 
 render the Spam UI as follows
-```
+```typescript
  {spams.map((oneNotification, i) => {
     const { 
       cta,
@@ -122,7 +122,7 @@ render the Spam UI as follows
   })}
 ```
 
-```
+```typescript
 const subscribeFn = async () => {
   // opt in to the spam notification item channel
 }
@@ -130,7 +130,7 @@ const subscribeFn = async () => {
 we can use this `@epnsproject/sdk-restapi` method to do that - [subscribe](../restapi/README.md#opt-in-to-a-channel)
 
 
-```
+```typescript
 const isSubscribedFn = async () => {
   // return boolean which says whether the channel for the 
   // spam notification item is subscribed or not by the user.
