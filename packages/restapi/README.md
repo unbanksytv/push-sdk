@@ -19,10 +19,10 @@ import * as EpnsAPI from "@epnsproject/sdk-restapi";
 **NOTE on Addresses:**
 
 In any of the below methods (unless explicitly stated otherwise) we accept either - 
-- [CAIP format](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md#test-cases) for any on chain addresses ***we strongly recommend using this address format***. 
-(Example : eip155:1:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb)
+- [CAIP format](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md#test-cases): for any on chain addresses ***We strongly recommend using this address format***. 
+(Example : `eip155:1:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb`)
 
-- ETH address format: only for backwards compatibility 
+- ETH address format: only for backwards compatibility. 
 (Example: `0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb`)
 
 
