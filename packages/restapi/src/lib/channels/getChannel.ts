@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { getConfig, isValidETHAddress, getCAIPFormat } from '../helpers';
+import {
+  getCAIPAddress,
+  getAPIBaseUrls
+} from '../helpers';
 import Constants from '../constants';
 
 /**
@@ -8,8 +11,7 @@ import Constants from '../constants';
 
 export type GetChannelOptionsType = {
   channel: string;
-  chainId?: number;
-  dev?: boolean;
+  env?: string;
 }
 
 export const getChannel = async (
@@ -17,18 +19,13 @@ export const getChannel = async (
 ) => {
   const {
     channel,
-    chainId = Constants.DEFAULT_CHAIN_ID,
-    dev
+    env = Constants.ENV.PROD,
   } = options || {};
 
-  if (!isValidETHAddress(channel)) throw Error('Invalid "channel" provided!');
-
-  const channelInCAIP = getCAIPFormat(chainId, channel);
-
-  const [apiEnv] = getConfig(chainId, dev);
-  const apiEndpoint = `${apiEnv}/v1/channels`;
-
-  const requestUrl = `${apiEndpoint}/${channelInCAIP}`;
+  const _channel = getCAIPAddress(env, channel, 'Channel');
+  const API_BASE_URL = getAPIBaseUrls(env);
+  const apiEndpoint = `${API_BASE_URL}/v1/channels`;
+  const requestUrl = `${apiEndpoint}/${_channel}`;
 
   return await axios.get(requestUrl)
     .then((response) => response.data)

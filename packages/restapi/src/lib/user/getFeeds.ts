@@ -1,5 +1,10 @@
 import axios from 'axios';
-import { getConfig, getQueryParams, getCAIPFormat, getLimit } from '../helpers';
+import {
+  getCAIPAddress,
+  getAPIBaseUrls,
+  getQueryParams,
+  getLimit,
+} from '../helpers';
 import Constants from '../constants';
 import { parseApiResponse } from '../utils';
 
@@ -10,12 +15,11 @@ import { parseApiResponse } from '../utils';
 
 export type FeedsOptionsType = {
   user: string;
-  chainId?: number;
+  env?: string;
   page?: number;
   limit?: number;
   spam?: boolean;
   raw?: boolean;
-  dev?: boolean;
 }
 
 export const getFeeds = async (
@@ -23,19 +27,16 @@ export const getFeeds = async (
 ) => {
   const {
     user,
-    chainId = Constants.DEFAULT_CHAIN_ID,
+    env = Constants.ENV.PROD,
     page = Constants.PAGINATION.INITIAL_PAGE,
     limit = Constants.PAGINATION.LIMIT,
     spam = false,
     raw = false,
-    dev
   } = options || {};
 
-  if (!user) throw Error('"user" not provided!')
-
-  const userAddressInCAIP = getCAIPFormat(chainId, user);
-  const [apiEnv] = getConfig(chainId, dev);
-  const apiEndpoint = `${apiEnv}/v1/users/${userAddressInCAIP}/feeds`;
+  const _user = getCAIPAddress(env, user, 'User');
+  const API_BASE_URL = getAPIBaseUrls(env);
+  const apiEndpoint = `${API_BASE_URL}/v1/users/${_user}/feeds`;
 
   const queryObj = {
     page,
@@ -47,7 +48,6 @@ export const getFeeds = async (
 
   return axios.get(requestUrl)
     .then((response) => {
-      console.log('response?.data?.feeds: --> ', response?.data?.feeds);
       if (raw) {
         return response?.data?.feeds || [];
       }

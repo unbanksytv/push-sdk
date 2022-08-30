@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getConfig, getQueryParams, getLimit, isValidETHAddress, getCAIPFormat } from '../helpers';
+import { getAPIBaseUrls, getQueryParams, getLimit } from '../helpers';
 import Constants from '../constants';
 
 /**
@@ -10,10 +10,9 @@ import Constants from '../constants';
 
 export type SearchChannelOptionsType = {
   query: string;
-  chainId?: number;
+  env?: string;
   page?: number;
   limit?: number;
-  dev?: boolean;
 }
 
 export const search = async (
@@ -21,31 +20,21 @@ export const search = async (
 ) => {
   const {
     query,
-    chainId = Constants.DEFAULT_CHAIN_ID,
+    env = Constants.ENV.PROD,
     page = Constants.PAGINATION.INITIAL_PAGE,
     limit = Constants.PAGINATION.LIMIT,
-    dev
   } = options || {};
 
-  if (!query) throw Error('"query" not provided!')
+  if (!query) throw Error('"query" not provided!');
 
-  let _query = query;
-
-  /*
-   * in case ETH address is passed then convert to CAIP 
-   * before assigning to query params
-  */
-  if (isValidETHAddress(query)) {
-    _query = getCAIPFormat(chainId, query);
-  }
-
-  const [apiEnv] = getConfig(chainId, dev);
-  const apiEndpoint = `${apiEnv}/v1/channels/search/`;
+  const API_BASE_URL = getAPIBaseUrls(env);
+ 
+  const apiEndpoint = `${API_BASE_URL}/v1/channels/search/`;
 
   const queryObj = {
     page,
     limit: getLimit(limit),
-    query: _query
+    query: query
   };
 
   const requestUrl = `${apiEndpoint}?${getQueryParams(queryObj)}`;

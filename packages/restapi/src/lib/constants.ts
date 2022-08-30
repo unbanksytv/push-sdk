@@ -1,4 +1,9 @@
 const Constants = {
+  ENV: {
+    PROD: 'prod',
+    STAGING: 'staging',
+    DEV: 'dev'
+  },
   PAGINATION: {
     INITIAL_PAGE: 1,
     LIMIT: 10,
@@ -7,7 +12,8 @@ const Constants = {
   },
   DEFAULT_CHAIN_ID: 42,
   DEV_CHAIN_ID: 99999,
-  NON_ETH_CHAINS: [137, 80001]
+  NON_ETH_CHAINS: [137, 80001],
+  ETH_CHAINS: [1, 42]
 };
 
 export default Constants;

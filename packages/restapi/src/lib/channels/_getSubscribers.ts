@@ -1,12 +1,14 @@
 import axios from "axios";
-import { getConfig, checkForAliasAddress } from '../helpers';
+import {
+  getCAIPAddress,
+  getAPIBaseUrls,
+  getCAIPDetails
+} from '../helpers';
 import Constants from '../constants';
 
 export type GetSubscribersOptionsType = {
-  channel: string;
-  channelAlias?: string;
-  chainId?: number;
-  dev?: boolean;
+  channel: string; // plain ETH Format only
+  env?: string
 }
 
 /**
@@ -30,19 +32,25 @@ export const _getSubscribers = async (
 
   const {
     channel,
-    channelAlias,
-    chainId = Constants.DEFAULT_CHAIN_ID,
-    dev
+    env = Constants.ENV.PROD,
   } = options || {};
 
-  const _channelAddress = checkForAliasAddress(channel, chainId, channelAlias);
-  
-  const [apiEnv] = getConfig(chainId, dev);
-  const apiEndpoint = `${apiEnv}/channels/_get_subscribers`;
+  const _channelAddress = getCAIPAddress(env, channel, 'Channel');
 
+  const channelCAIPDetails = getCAIPDetails(_channelAddress);
+  if (!channelCAIPDetails) throw Error('Invalid Channel CAIP!');
+
+  const chainId = channelCAIPDetails.networkId;
+
+  const API_BASE_URL = getAPIBaseUrls(env);
+  const apiEndpoint = `${API_BASE_URL}/channels/_get_subscribers`;
   const requestUrl = `${apiEndpoint}`;
 
-  const body = { channel: _channelAddress, op: "read", blockchain: chainId };
+  const body = {
+    channel: channelCAIPDetails.address, // deprecated API expects ETH address format
+    blockchain: chainId,
+    op: "read"
+  };
 
   const apiResponse = await axios.post(requestUrl, body);
 

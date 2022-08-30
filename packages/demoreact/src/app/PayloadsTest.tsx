@@ -1,12 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
 // import * as ethers from 'ethers';
-import { Section, SectionItem, SectionButton, CodeFormatter } from './components/StyledComponents';
+import { Section, SectionItem, SectionButton, } from './components/StyledComponents';
 import Loader from './components/Loader';
 import { APIFeedback } from './components/Feedback';
 import { DarkIcon, LightIcon } from './components/Icons';
-import Web3Context, { DevContext } from './web3context';
+import Web3Context, { EnvContext } from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
+import { getCAIPAddress } from './helpers';
 
 const TabButtons = styled.div`
   margin: 20px 0;
@@ -40,16 +41,21 @@ const IDENTITY_TYPE = {
   SUBGRAPH: 3
 };
 
-const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevENV?: boolean, channel: string, chainId: number }) => {
+const getOptionsMatrix = (
+  { signer, env = 'prod', isCAIP, channel } :
+  { signer: any, env?: string, isCAIP?: boolean, channel: string }
+) => {
   const timestamp = JSON.stringify(Date.now());
 
   if (!signer) throw Error(`No Signer provided`);
+
+  // console.log('isCAIP: ===> ', isCAIP);
 
   return {
     TARGETTED: {
       DIRECT_PAYLOAD:  {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.TARGETTED,
           identityType: IDENTITY_TYPE.DIRECT_PAYLOAD,
           notification: {
@@ -62,13 +68,12 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? getCAIPAddress(env, '0xD8634C39BBFd4033c0d3289C4515275102423681') : '0xD8634C39BBFd4033c0d3289C4515275102423681',
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       IPFS: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.TARGETTED,
           identityType: IDENTITY_TYPE.IPFS,
           ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // from BE devtools
@@ -82,13 +87,12 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? getCAIPAddress(env, '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1') : '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       MINIMAL: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.TARGETTED,
           identityType: IDENTITY_TYPE.MINIMAL,
           notification: {
@@ -101,13 +105,12 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? getCAIPAddress(env, '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1') : '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       GRAPH: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.TARGETTED,
           identityType: IDENTITY_TYPE.SUBGRAPH,
           graph: {
@@ -124,15 +127,14 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? getCAIPAddress(env, '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1') : '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       }
     },
     SUBSET: {
       DIRECT_PAYLOAD:  {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.SUBSET,
           identityType: IDENTITY_TYPE.DIRECT_PAYLOAD,
           notification: {
@@ -145,13 +147,14 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? 
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       IPFS: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.SUBSET,
           identityType: IDENTITY_TYPE.IPFS,
           ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // from BE devtools
@@ -165,13 +168,14 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? 
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       MINIMAL: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.SUBSET,
           identityType: IDENTITY_TYPE.MINIMAL,
           notification: {
@@ -184,13 +188,14 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? 
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       GRAPH: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.SUBSET,
           identityType: IDENTITY_TYPE.SUBGRAPH,
           graph: {
@@ -207,15 +212,16 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          recipients: ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: channel,
-          dev: isDevENV
+          recipients: isCAIP ? 
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       }
     },
     BROADCAST: {
       DIRECT_PAYLOAD:  {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.BROADCAST,
           identityType: IDENTITY_TYPE.DIRECT_PAYLOAD,
           notification: {
@@ -228,12 +234,11 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          channel: channel,
-          dev: isDevENV
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       IPFS: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.BROADCAST,
           identityType: IDENTITY_TYPE.IPFS,
           ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // from BE devtools
@@ -247,12 +252,11 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          channel: channel,
-          dev: isDevENV
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       MINIMAL: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.BROADCAST,
           identityType: IDENTITY_TYPE.MINIMAL,
           notification: {
@@ -265,12 +269,11 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          channel: channel,
-          dev: isDevENV
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       },
       GRAPH: {
           signer,
-          chainId: 42,
+          env,
           type: NOTIFICATION_TYPE.BROADCAST,
           identityType: IDENTITY_TYPE.SUBGRAPH,
           graph: {
@@ -287,8 +290,7 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
               cta: '',
               img: ''
           },
-          channel: channel,
-          dev: isDevENV
+          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
       }
     },
   };
@@ -298,12 +300,13 @@ const getOptionsMatrix = ({ signer, isDevENV, channel } : { signer: any, isDevEN
 
 const PayloadsTest = () => {
   const { library, account, chainId } = useContext<any>(Web3Context);
-  const { isDevENV } = useContext<any>(DevContext);
+  const { env, isCAIP }  = useContext<any>(EnvContext);
   const [isLoading, setLoading] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [viewType, setViewType] = useState(IDENTITY_TYPE.DIRECT_PAYLOAD);
   const [apiStatus, setApiStatus] = useState<any>();
   const [inputOption, setInputOption] = useState<any>();
+  const [OPTIONS_MATRIX, SET_OPTIONS_MATRIX] = useState<any>({});
   
   // const PK = 'd5797b255933f72a6a084fcfc0f5f4881defee8c1ae387197805647d0b10a8a0'; // PKey, server code
   // const Pkey = `0x${PK}`;
@@ -317,13 +320,6 @@ const PayloadsTest = () => {
   // for UI code
   const signer = library.getSigner(account);
 
-
-  const OPTIONS_MATRIX = getOptionsMatrix({
-    signer,
-    chainId,
-    channel: testChannelAddress,
-    isDevENV
-  });
 
   const toggleTheme = () => {
     setTheme(lastTheme => {
@@ -340,6 +336,8 @@ const PayloadsTest = () => {
     setApiStatus('');
     setLoading(true);
     try {
+      // console.log('inputOption: ', inputOption);
+  
       const apiResponse = await EpnsAPI.payloads.sendNotification(inputOption);
       console.log('apiResponse: ', apiResponse);
       setApiStatus({
@@ -511,7 +509,6 @@ const PayloadsTest = () => {
       );
     }
 
-    // debugger;
     return (
       <>
         <b className='headerText'>DIRECT_PAYLOAD: </b>
@@ -562,6 +559,20 @@ const PayloadsTest = () => {
       </>
     );
   };
+
+  useEffect(() => {
+    const options = getOptionsMatrix({
+      signer,
+      channel: testChannelAddress,
+      env,
+      isCAIP,
+    });
+
+    SET_OPTIONS_MATRIX(options);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [env, isCAIP]);
+
+  // console.log('LOG: --> ', { env, isCAIP });
 
   return (
       <div>

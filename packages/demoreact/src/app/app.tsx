@@ -4,7 +4,8 @@ import { Route, Routes, Link } from 'react-router-dom';
 import { useWeb3React } from "@web3-react/core";
 import ConnectButton from './components/Connect';
 import { Checkbox } from './components/Checkbox';
-import Web3Context, { DevContext } from './web3context';
+import Dropdown from './components/Dropdown';
+import Web3Context, { EnvContext } from './web3context';
 import Logo from '../assets/epnsLogo.png';
 import NotificationsTest from './NotificationsTest';
 import SecretNotificationsTest from './SecretNotificationsTest';
@@ -91,6 +92,12 @@ const NavMenu = styled.div`
   display: flex;
   gap: 30px;
   justify-content: center;
+
+  @media only screen and (max-width: 900px) {
+    flex-direction: column;
+  }
+
+
 `
 
 
@@ -101,9 +108,15 @@ const checkForWeb3Data = ({ library, active, account, chainId  } : Web3ReactStat
 export function App() {
   const web3Data : Web3ReactState = useWeb3React();
 
-  const [isDevENV, setIsDevENV] = useState(false);
-  const onChange = () => {
-    setIsDevENV(!isDevENV);
+  const [env, setEnv] = useState('prod');
+  const [isCAIP, setIsCAIP] = useState(false);
+
+  const onChangeEnv = (e: any) => {
+    setEnv(e.target.value);
+  };
+
+  const onChangeCAIP = () => {
+    setIsCAIP(!isCAIP);
   };
 
   return (
@@ -115,11 +128,24 @@ export function App() {
 
       <ConnectButton />
 
-      <Checkbox id="devEnv" value={isDevENV} onChange={onChange} label="DEV ENV"/>
+      <Dropdown
+        label="ENV"
+        options={[
+          { label: 'prod', value: 'prod' },
+          { label: 'staging', value: 'staging' },
+          { label: 'dev', value: 'dev' }
+        ]}
+        value={env}
+        onChange={onChangeEnv}
+      />
 
+      <div style={{ marginTop: 10 }}>
+        <Checkbox id="isCAIP" label="Convert to CAIP" value={isCAIP} onChange={onChangeCAIP} />
+      </div>
+      
 
       <hr />
-      <DevContext.Provider value={{ isDevENV }}>
+      <EnvContext.Provider value={{ env, isCAIP }}>
       {checkForWeb3Data(web3Data) ? (
         <Web3Context.Provider value={web3Data}>
           <Routes>
@@ -161,7 +187,7 @@ export function App() {
           </Routes>
         </Web3Context.Provider>
       ) : null}
-      </DevContext.Provider>
+      </EnvContext.Provider>
       
     </StyledApp>
   );

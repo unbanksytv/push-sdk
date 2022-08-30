@@ -1,59 +1,61 @@
-// API ENVs
-export const PROD = 'PROD';
-export const STAGING = 'STAGING';
-export const DEV = 'DEV';
+
+import Constants from './constants';
 
 
-// CHAIN IDs
-export const ETH_MAINNET = 1;
-export const ETH_KOVAN = 42;
-export const POLYGON_MAINNET = 37;
-export const POLYGON_MUMBAI = 80001;
+
+const { ENV } = Constants;
+
+
+// for methods not needing the entire config
+export const API_BASE_URL = {
+  [ENV.PROD]: 'https://backend-prod.epns.io/apis',
+  [ENV.STAGING]: 'https://backend-kovan.epns.io/apis',
+  [ENV.DEV]: 'https://backend-dev.epns.io/apis'
+};
+
+const BLOCKCHAIN_NETWORK = {
+  ETH_MAINNET: 'eip155:1',
+  ETH_KOVAN: 'eip155:42',
+  POLYGON_MAINNET: 'eip155:137',
+  POLYGON_MUMBAI: 'eip155:80001'
+};
 
 export interface ConfigType {
   API_BASE_URL: string,
   EPNS_COMMUNICATOR_CONTRACT: string
 }
 
-export interface ConfigMapType {
-  [key: number]: { // chain id
-    [key: string]: ConfigType // apiEnv
-  }
-}
-
-const CONFIG : ConfigMapType = {
-  [ETH_MAINNET]: {
-    [PROD]: {
-      API_BASE_URL: 'https://backend-prod.epns.io/apis',
+const CONFIG = {
+  [ENV.PROD]: {
+    [BLOCKCHAIN_NETWORK.ETH_MAINNET]: {
+      API_BASE_URL: API_BASE_URL[ENV.PROD],
+      EPNS_COMMUNICATOR_CONTRACT: '0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa'
+    },
+    [BLOCKCHAIN_NETWORK.POLYGON_MAINNET]: {
+      API_BASE_URL: API_BASE_URL[ENV.PROD],
       EPNS_COMMUNICATOR_CONTRACT: '0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa'
     }
   },
-  [ETH_KOVAN]: {
-    [STAGING]:  {
-      API_BASE_URL: 'https://backend-kovan.epns.io/apis',
+  [ENV.STAGING]: {
+    [BLOCKCHAIN_NETWORK.ETH_KOVAN]: {
+      API_BASE_URL: API_BASE_URL[ENV.STAGING],
       EPNS_COMMUNICATOR_CONTRACT: '0x87da9Af1899ad477C67FeA31ce89c1d2435c77DC'
     },
-    [DEV]: {
-      API_BASE_URL: 'https://backend-dev.epns.io/apis',
-      EPNS_COMMUNICATOR_CONTRACT: '0x99047d328496C14016222a998564B334A4A5723f'
-    }
-  },
-  [POLYGON_MAINNET]: {
-    [PROD]: {
-      API_BASE_URL: 'https://backend-prod.epns.io/apis',
-      EPNS_COMMUNICATOR_CONTRACT: '0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa'
-    }
-  },
-  [POLYGON_MUMBAI]: {
-    [STAGING]:  {
-      API_BASE_URL: 'https://backend-kovan.epns.io/apis',
+    [BLOCKCHAIN_NETWORK.POLYGON_MUMBAI]: {
+      API_BASE_URL: API_BASE_URL[ENV.STAGING],
       EPNS_COMMUNICATOR_CONTRACT: '0xD2ee1e96e3592d5945dDc1808834d7EE67400823'
+    }
+  },
+  [ENV.DEV]: {
+    [BLOCKCHAIN_NETWORK.ETH_KOVAN]: {
+      API_BASE_URL: API_BASE_URL[ENV.DEV],
+      EPNS_COMMUNICATOR_CONTRACT: '0x99047d328496C14016222a998564B334A4A5723f'
     },
-    [DEV]: {
-      API_BASE_URL: 'https://backend-dev.epns.io/apis',
+    [BLOCKCHAIN_NETWORK.POLYGON_MUMBAI]: {
+      API_BASE_URL: API_BASE_URL[ENV.DEV],
       EPNS_COMMUNICATOR_CONTRACT: '0xAf55BE8e6b0d6107891bA76eADeEa032ef8A4504'
     }
-  },
+  }
 };
 
 export default CONFIG;

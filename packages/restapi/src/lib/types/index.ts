@@ -67,7 +67,6 @@ export type ParsedResponseType = {
 
 export interface ISendNotificationInputOptions {
     signer: any;
-    chainId: number;
     type: number;
     identityType: number;
     notification: {
@@ -81,8 +80,8 @@ export interface ISendNotificationInputOptions {
       cta: string;
       img: string;
     },
-    recipients?: string | string[];
-    channel: string;
+    recipients?: string | string[]; // CAIP or plain ETH
+    channel: string; // CAIP or plain ETH
     expiry?: number;
     hidden?: boolean;
     graph?: {
@@ -90,7 +89,7 @@ export interface ISendNotificationInputOptions {
       counter: number
     };
     ipfsHash?: string;
-    dev?: boolean;
+    env?: string;
   }
   
   export interface INotificationPayload {

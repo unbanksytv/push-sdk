@@ -1,5 +1,9 @@
 import axios from "axios";
-import { getConfig, checkForAliasAddress, getCAIPFormat } from '../helpers';
+import {
+  getCAIPAddress,
+  getConfig,
+  getCAIPDetails,
+} from '../helpers';
 import {
   getTypeInformation,
   getDomainInformation,
@@ -18,13 +22,11 @@ type SignerType = {
 export type SubscribeOptionsType = {
   signer: SignerType;
   channelAddress: string;
-  channelAlias?: string;
   userAddress: string;
   verifyingContractAddress?: string;
-  chainId?: number;
+  env?: string;
   onSuccess?: () => void
   onError?: (err: Error) => void,
-  dev?: boolean
 }
 
 export const subscribe = async (
@@ -33,27 +35,34 @@ export const subscribe = async (
   const {
     signer,
     channelAddress,
-    channelAlias,
     userAddress,
     verifyingContractAddress,
-    chainId = Constants.DEFAULT_CHAIN_ID,
-    dev,
+    env = Constants.ENV.PROD,
     onSuccess,
     onError,
   } = options || {};
 
   try {
-    const _channelAddress = checkForAliasAddress(channelAddress, chainId, channelAlias);
-    const channelAddressInCAIP = getCAIPFormat(chainId, _channelAddress);
-    const [apiEnv, ,contractAddress] = getConfig(chainId, dev);
-    const userAddressInCAIP = getCAIPFormat(chainId, userAddress);
+    const _channelAddress = getCAIPAddress(env, channelAddress, 'Channel');
 
-    const requestUrl = `${apiEnv}/v1/channels/${channelAddressInCAIP}/subscribe`;
+    const channelCAIPDetails = getCAIPDetails(_channelAddress);
+    if (!channelCAIPDetails) throw Error('Invalid Channel CAIP!');
+
+    const chainId = parseInt(channelCAIPDetails.networkId, 10);
+
+    const _userAddress = getCAIPAddress(env, userAddress, 'User');
+  
+    const userCAIPDetails = getCAIPDetails(_userAddress);
+    if (!userCAIPDetails) throw Error('Invalid User CAIP!');
+
+    const { API_BASE_URL,EPNS_COMMUNICATOR_CONTRACT } = getConfig(env, channelCAIPDetails);
+
+    const requestUrl = `${API_BASE_URL}/v1/channels/${_channelAddress}/subscribe`;
 
     // get domain information
     const domainInformation = getDomainInformation(
       chainId,
-      verifyingContractAddress || contractAddress
+      verifyingContractAddress || EPNS_COMMUNICATOR_CONTRACT
     );
 
     // get type information
@@ -61,8 +70,8 @@ export const subscribe = async (
 
     // get message
     const messageInformation = getSubscriptionMessage(
-      _channelAddress,
-      userAddress,
+      channelCAIPDetails.address,
+      userCAIPDetails.address,
       "Subscribe"
     );
 
@@ -79,8 +88,8 @@ export const subscribe = async (
       verificationProof,
       message: {
         ...messageInformation,
-        channel: channelAddressInCAIP,
-        subscriber: userAddressInCAIP
+        channel: _channelAddress,
+        subscriber: _userAddress
       },
     };
 
