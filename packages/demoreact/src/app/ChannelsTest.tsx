@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Section, SectionItem, CodeFormatter, SectionButton } from './components/StyledComponents';
 import Loader from './components/Loader'
-import Web3Context, { DevContext } from './web3context';
+import Web3Context, { EnvContext } from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
+import { getCAIPAddress } from './helpers';
+
 
 const ChannelsTest = () => {
   const { library, account, chainId } = useContext<any>(Web3Context);
-  const { isDevENV } = useContext<any>(DevContext);
+  const { env, isCAIP } = useContext<any>(EnvContext);
   const [channelAddr, setChannelAddr] = useState<string>('');
   const [channelName, setChannelName] = useState<string>('');
   const [isLoading, setLoading] = useState(false);
@@ -34,9 +36,8 @@ const ChannelsTest = () => {
 
       // object for channel data
       const response = await EpnsAPI.channels.getChannel({
-        channel: channelAddr,
-        chainId,
-        dev: isDevENV
+        channel: isCAIP ? getCAIPAddress(env, channelAddr) : channelAddr,
+        env
       });
       
       setChannelData(response);
@@ -54,8 +55,7 @@ const ChannelsTest = () => {
       // Array for channels data
       const response = await EpnsAPI.channels.search({
         query: channelName,
-        chainId,
-        dev: isDevENV
+        env
       });
       setChannelListData(response);
     } catch (e) {
@@ -69,10 +69,8 @@ const ChannelsTest = () => {
     try {
       setLoading(true);
       const response = await EpnsAPI.channels._getSubscribers({
-        channel: channelAddr,
-        channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
-        chainId,
-        dev: isDevENV
+        channel: isCAIP ? getCAIPAddress(env, channelAddr) : channelAddr,
+        env
       });
   
       setSubscriberData(response);
@@ -86,14 +84,15 @@ const ChannelsTest = () => {
   const testSubscriberStatus = async () => {
     try {
       setLoading(true);
-      const subscriptions = await EpnsAPI.user.getSubscriptions({
-        user: account,
-        chainId,
-        dev: isDevENV
+      let subscriptions = await EpnsAPI.user.getSubscriptions({
+        user: isCAIP ? getCAIPAddress(env, account) : account,
+        env
       });
 
-      const status = subscriptions.map((sub: any) => sub.channel).includes(channelAddr);
-  
+      subscriptions = subscriptions.map((sub: any) => sub.channel.toLowerCase());
+      
+      const status = subscriptions.includes(channelAddr.toLowerCase());
+
       setSubscriberStatus(status);
     } catch(e) {
       console.error(e)
@@ -113,10 +112,9 @@ const ChannelsTest = () => {
       if (subscriberStatus) {
         await EpnsAPI.channels.unsubscribe({
           signer: _signer,
-          channelAddress: channelAddr,
-          channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
-          userAddress: account,
-          chainId,
+          channelAddress: isCAIP ? getCAIPAddress(env, channelAddr) : channelAddr,
+          userAddress: isCAIP ? getCAIPAddress(env, account) : account,
+          env,
           onSuccess: () => {
             console.log('opt out success');
             setSubscriberStatus(false);
@@ -124,15 +122,13 @@ const ChannelsTest = () => {
           onError: (e) => {
             console.error('opt out error', e);
           },
-          dev: isDevENV
         })
       } else {
         await EpnsAPI.channels.subscribe({
           signer: _signer,
-          channelAddress: channelAddr,
-          channelAlias: [80001, 37].includes(chainId) ? (channelData && channelData['alias_address']) : channelAddr,
-          userAddress: account,
-          chainId,
+          channelAddress: isCAIP ? getCAIPAddress(env, channelAddr) : channelAddr,
+          userAddress: isCAIP ? getCAIPAddress(env, account) : account,
+          env,
           onSuccess: () => {
             console.log('opt in success');
             setSubscriberStatus(true);
@@ -140,7 +136,6 @@ const ChannelsTest = () => {
           onError: (e) => {
             console.error('opt in error', e);
           },
-          dev: isDevENV
         })
       }
 
@@ -164,6 +159,8 @@ const ChannelsTest = () => {
       testGetSubscribers();
     }
   }, [subscriberStatus]);
+
+  // console.log('LOG: --> ', { env, isCAIP });
 
   return (
     <div>

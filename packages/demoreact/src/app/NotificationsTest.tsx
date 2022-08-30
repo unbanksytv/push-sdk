@@ -3,9 +3,10 @@ import styled from 'styled-components';
 import { Section, SectionItem, SectionButton } from './components/StyledComponents';
 import Loader from './components/Loader';
 import { DarkIcon, LightIcon } from './components/Icons';
-import Web3Context, { DevContext } from './web3context';
+import Web3Context, { EnvContext } from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
 import { NotificationItem, chainNameType, SubscribedModal } from '@epnsproject/sdk-uiweb';
+import { getCAIPAddress } from './helpers';
 
 import sampleNotifications from './data';
 
@@ -40,9 +41,11 @@ const ThemeSelector = styled.div`
   height: 32px;
 `;
 
+const devWorkingAddress = '0xD8634C39BBFd4033c0d3289C4515275102423681';
+
 const NotificationsTest = () => {
   const { account, chainId } = useContext<any>(Web3Context);
-  const { isDevENV } = useContext<any>(DevContext);
+  const { env, isCAIP } = useContext<any>(EnvContext);
   const [isLoading, setLoading] = useState(false);
   const [notifs, setNotifs] = useState<EpnsAPI.ParsedResponseType[]>();
   const [spams, setSpams] = useState<EpnsAPI.ParsedResponseType[]>();
@@ -55,11 +58,10 @@ const NotificationsTest = () => {
     try {
       setLoading(true);
       const feeds = await EpnsAPI.user.getFeeds({
-        user: account,
-        // user: '0xD8634C39BBFd4033c0d3289C4515275102423681',
-        chainId,
+        user: isCAIP ? getCAIPAddress(env, account) : account,
+        // user: isCAIP ? getCAIPAddress(env, devWorkingAddress) : devWorkingAddress,
         limit: 30,
-        dev: isDevENV
+        env: env
       });
 
       console.log('feeds: ', feeds);
@@ -71,16 +73,15 @@ const NotificationsTest = () => {
     } finally {
       setLoading(false);
     }
-  }, [account, chainId, isDevENV]);
+  }, [account, env, isCAIP]);
 
   const loadSpam = useCallback(async () => {
     try {
       setLoading(true);
       const spams = await EpnsAPI.user.getFeeds({
-        user: account,
-        chainId,
+        user: isCAIP ? getCAIPAddress(env, account) : account,
         spam: true,
-        dev: isDevENV
+        env: env
       });
 
       setSpams(spams);
@@ -90,7 +91,7 @@ const NotificationsTest = () => {
     } finally {
       setLoading(false);
     }
-  }, [account, chainId, isDevENV]);
+  }, [account, env, isCAIP]);
 
   const toggleTheme = () => {
     setTheme(lastTheme => {

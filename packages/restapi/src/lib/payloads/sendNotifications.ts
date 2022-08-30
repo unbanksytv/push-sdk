@@ -1,16 +1,15 @@
 import axios from 'axios';
 import { ISendNotificationInputOptions } from '../types';
 import {
-  getEpnsConfig,
   getPayloadForAPIInput,
   getPayloadIdentity,
   getRecipients,
   getRecipientFieldForAPIPayload,
   getVerificationProof,
   getSource,
-  getCAIPFormat,
   getUUID
 } from './helpers';
+import { getCAIPAddress, getCAIPDetails, getConfig } from '../helpers';
 import { NOTIFICATION_TYPE } from './constants';
 
 
@@ -18,28 +17,38 @@ export async function sendNotification(options: ISendNotificationInputOptions) {
   try {
     const {
       signer,
-      chainId,
       type,
       identityType,
       payload,
       recipients,
       channel,
-      dev,
-      // newly added PROPS: TODO: check about these
       graph,
-      ipfsHash,   
+      ipfsHash,
+      env = 'prod'
     } = options || {};
 
-    const uuid = getUUID();
+    const _channelAddress = getCAIPAddress(env, channel, 'Channel');
+    const channelCAIPDetails = getCAIPDetails(_channelAddress);
+
+    if (!channelCAIPDetails) throw Error('Invalid Channel CAIP!');
 
     if (type === NOTIFICATION_TYPE.BROADCAST && !channel) {
       throw '[EPNS-SDK] - Error - sendNotification() - "channel" mandatory for Notification Type: Broadcast!';
     }
 
-    const _channel = channel || signer.address;
+    const uuid = getUUID();
+    const chainId = parseInt(channelCAIPDetails.networkId, 10);
 
-    const epnsConfig = getEpnsConfig(chainId, dev);
-    const _recipients = await getRecipients(chainId, type, recipients, payload?.sectype, _channel);
+    const { API_BASE_URL, EPNS_COMMUNICATOR_CONTRACT } = getConfig(env, channelCAIPDetails);
+
+    const _recipients = await getRecipients({
+      env,
+      notificationType: type,
+      channel: _channelAddress,
+      recipients,
+      secretType: payload?.sectype
+    });
+
     const notificationPayload = getPayloadForAPIInput(options, _recipients);
 
     const verificationProof = await getVerificationProof({
@@ -47,7 +56,7 @@ export async function sendNotification(options: ISendNotificationInputOptions) {
       chainId,
       identityType,
       notificationType: type,
-      verifyingContract: epnsConfig.EPNS_COMMUNICATOR_CONTRACT,
+      verifyingContract: EPNS_COMMUNICATOR_CONTRACT,
       payload: notificationPayload,
       graph,
       ipfsHash,
@@ -67,26 +76,26 @@ export async function sendNotification(options: ISendNotificationInputOptions) {
     const apiPayload = {
       verificationProof,
       identity,
-      channel: getCAIPFormat(chainId, _channel),
+      sender: _channelAddress,
       source,
       /** note this recipient key has a different expectation from the BE API, see the funciton for more */
       recipient: getRecipientFieldForAPIPayload({
-        chainId,
+        env,
         notificationType: type,
         recipients: recipients || '',
-        channel: _channel
+        channel: _channelAddress
       })
     };
 
-    const requestURL = `${epnsConfig.API_BASE_URL}/v1/payloads/`;
+    const requestURL = `${API_BASE_URL}/v1/payloads/`;
 
-    console.log(
-      '\n\nAPI call :-->> ',
-      requestURL,
-      '\n\n',
-      apiPayload,
-      '\n\n\n\n'
-    );
+    // console.log(
+    //   '\n\nAPI call :-->> ',
+    //   requestURL,
+    //   '\n\n',
+    //   apiPayload,
+    //   '\n\n\n\n'
+    // );
 
     return await axios.post(
       requestURL,

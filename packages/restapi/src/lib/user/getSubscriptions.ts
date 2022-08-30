@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { getConfig, getCAIPFormat } from '../helpers';
+import {
+  getCAIPAddress,
+  getAPIBaseUrls
+} from '../helpers';
 import Constants from '../constants';
 
 /**
@@ -8,8 +11,7 @@ import Constants from '../constants';
 
 export type UserSubscriptionsOptionsType = {
   user: string;
-  chainId?: number;
-  dev?: boolean;
+  env?: string;
 }
 
 export const getSubscriptions = async (
@@ -17,16 +19,12 @@ export const getSubscriptions = async (
 ) => {
   const {
     user,
-    chainId = Constants.DEFAULT_CHAIN_ID,
-    dev
+    env = Constants.ENV.PROD,
   } = options || {};
 
-  if (!user) throw Error('"user" not provided!')
-
-  const userAddressInCAIP = getCAIPFormat(chainId, user);
-  const [apiEnv] = getConfig(chainId, dev);
-  const apiEndpoint = `${apiEnv}/v1/users/${userAddressInCAIP}/subscriptions`;
-
+  const _user = getCAIPAddress(env, user, 'User');
+  const API_BASE_URL = getAPIBaseUrls(env);
+  const apiEndpoint = `${API_BASE_URL}/v1/users/${_user}/subscriptions`;
   const requestUrl = `${apiEndpoint}`;
 
   return axios.get(requestUrl)

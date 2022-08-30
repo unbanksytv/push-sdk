@@ -1,11 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import CONFIG, { 
-  ETH_MAINNET, 
-  POLYGON_MAINNET, 
-  PROD, STAGING,
-  DEV,
-  ConfigType
-} from '../config';
+import { getCAIPAddress } from '../helpers';
+
 import { ISendNotificationInputOptions, INotificationPayload } from '../types';
 import {
   IDENTITY_TYPE,
@@ -17,21 +12,6 @@ import {
 export function getUUID() {
   return uuidv4();
 }
-
-export const getEpnsConfig = (chainId: number, isDev?: boolean) : ConfigType => {
-  // for Mainnet
-  if ([ETH_MAINNET, POLYGON_MAINNET].includes(chainId)) {
-    return CONFIG[chainId][PROD];
-  }
-
-  // if explicitly passed "dev: true"
-  if (isDev) {
-    return CONFIG[chainId][DEV];
-  }
-
-  // by default
-  return CONFIG[chainId][STAGING];
-};
 
 
 /**
@@ -64,13 +44,19 @@ export function getPayloadForAPIInput(
 /**
  * This function returns the recipient format accepted by the API for different notification types
  */
-export async function getRecipients(
-  chainId: number,
+export async function getRecipients({
+  env,
+  notificationType,
+  channel,
+  recipients,
+  secretType
+} : {
+  env: string,
   notificationType: number,
+  channel: string,
   recipients?: string | string[],
   secretType?: string,
-  channel?: string
-) {
+}) {
   let addressInCAIP = '';
 
   if (secretType) {
@@ -83,7 +69,7 @@ export async function getRecipients(
      */
      if (notificationType === NOTIFICATION_TYPE.TARGETTED) {
       if (typeof recipients === 'string') {
-        addressInCAIP = getCAIPFormat(chainId, recipients);
+        addressInCAIP = getCAIPAddress(env, recipients, 'Recipient');
         secret = ''; // do secret stuff // TODO
 
         return {
@@ -93,7 +79,7 @@ export async function getRecipients(
     } else if (notificationType === NOTIFICATION_TYPE.SUBSET) {
       if (Array.isArray(recipients)) {
         const recipientObject =  recipients.reduce((_recipients, _rAddress) => {
-          addressInCAIP = getCAIPFormat(chainId, _rAddress);
+          addressInCAIP = getCAIPAddress(env, _rAddress, 'Recipient');
           secret = ''; // do secret stuff // TODO
 
           return {
@@ -114,21 +100,21 @@ export async function getRecipients(
 
     if (notificationType === NOTIFICATION_TYPE.BROADCAST) {
       if (!recipients) {
-        return getCAIPFormat(chainId, channel || '');
+        // return getCAIPFormat(chainId, channel || '');
+        return getCAIPAddress(env, channel, 'Recipient');
       }
     } else if (notificationType === NOTIFICATION_TYPE.TARGETTED) {
       if (typeof recipients === 'string') {
-        addressInCAIP = getCAIPFormat(chainId, recipients);
-        return addressInCAIP;
+        return getCAIPAddress(env, recipients, 'Recipient');
       }
     } else if (notificationType === NOTIFICATION_TYPE.SUBSET) {
       if (Array.isArray(recipients)) {
         const recipientObject = recipients.reduce((_recipients, _rAddress) => {
-          addressInCAIP = getCAIPFormat(chainId, _rAddress);
-         return {
-          ..._recipients,
-          [addressInCAIP]: null
-         };
+          addressInCAIP = getCAIPAddress(env, _rAddress, 'Recipient');
+          return {
+            ..._recipients,
+            [addressInCAIP]: null
+          };
         }, {});
         return recipientObject;
       }
@@ -138,22 +124,22 @@ export async function getRecipients(
 }
 
 export function getRecipientFieldForAPIPayload({
-  chainId,
+  env,
   notificationType,
   recipients,
   channel,
 } : {
-  chainId: number,
+  env: string,
   notificationType: number,
   recipients: string | string[],
   channel: string
 }) {
 
   if (notificationType === NOTIFICATION_TYPE.TARGETTED && typeof recipients === 'string') {
-    return getCAIPFormat(chainId, recipients);
+    return getCAIPAddress(env, recipients, 'Recipient')
   }
 
-  return getCAIPFormat(chainId, channel);
+  return getCAIPAddress(env, channel, 'Recipient')
 }
 
 export async function getVerificationProof({
@@ -188,6 +174,7 @@ export async function getVerificationProof({
     chainId: chainId,
     verifyingContract: verifyingContract,
   };
+  
   let message = null;
   let signature = null;
 
