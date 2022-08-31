@@ -36,6 +36,16 @@ We have a `demoreact` playground to test the individual packages being built out
 
 So, use `yarn cz` to commit changes after `git add` (recommended) or hand crafted git commit messages to follow conventional commit. Otherwise the CLI will prevent you from committing code.
 
+- Before starting on any dev on the repo, 
+```bash
+# pull latest from main
+git pull origin main
+git fetch --tags
+
+# checkout new branch
+git checkout -b <your-branch-name>
+```
+
 ### How to add commits which will decide versioning when deploying
 When you are ready to commit your changes.
 
