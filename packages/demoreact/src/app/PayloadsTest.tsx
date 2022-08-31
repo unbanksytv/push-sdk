@@ -42,11 +42,9 @@ const IDENTITY_TYPE = {
 };
 
 const getOptionsMatrix = (
-  { signer, env = 'prod', isCAIP, channel } :
-  { signer: any, env?: string, isCAIP?: boolean, channel: string }
+  { signer, env = 'prod', isCAIP, channel, timestamp } :
+  { signer: any, env?: string, isCAIP?: boolean, channel: string, timestamp: string }
 ) => {
-  const timestamp = JSON.stringify(Date.now());
-
   if (!signer) throw Error(`No Signer provided`);
 
   // console.log('isCAIP: ===> ', isCAIP);
@@ -307,6 +305,7 @@ const PayloadsTest = () => {
   const [apiStatus, setApiStatus] = useState<any>();
   const [inputOption, setInputOption] = useState<any>();
   const [OPTIONS_MATRIX, SET_OPTIONS_MATRIX] = useState<any>({});
+  const [timestamp, setTimestamp] = useState<string>(JSON.stringify(Date.now()));
   
   // const PK = 'd5797b255933f72a6a084fcfc0f5f4881defee8c1ae387197805647d0b10a8a0'; // PKey, server code
   // const Pkey = `0x${PK}`;
@@ -336,7 +335,7 @@ const PayloadsTest = () => {
     setApiStatus('');
     setLoading(true);
     try {
-      // console.log('inputOption: ', inputOption);
+      console.log('inputOption: ', inputOption);
   
       const apiResponse = await EpnsAPI.payloads.sendNotification(inputOption);
       console.log('apiResponse: ', apiResponse);
@@ -352,6 +351,12 @@ const PayloadsTest = () => {
     }
   };
 
+
+  const selectInputOption = (_option: any) => {
+    setTimestamp(JSON.stringify(Date.now()));
+    setInputOption(_option);
+  };
+
   const renderSections = () => {
     if (viewType === IDENTITY_TYPE.MINIMAL) {
       return (
@@ -361,12 +366,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>  
               {JSON.stringify(OPTIONS_MATRIX.TARGETTED.MINIMAL, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="MINIMAL"
                 value="TARGETTED"
-                onChange={() => setInputOption(OPTIONS_MATRIX.TARGETTED.MINIMAL)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.MINIMAL)}
               />
               TARGETTED
             </label>
@@ -376,12 +381,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>
               {JSON.stringify(OPTIONS_MATRIX.SUBSET.MINIMAL, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="MINIMAL"
                 value="SUBSET"
-                onChange={() => setInputOption(OPTIONS_MATRIX.SUBSET.MINIMAL)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.MINIMAL)}
               />
               SUBSET
             </label>
@@ -391,12 +396,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>
               {JSON.stringify(OPTIONS_MATRIX.BROADCAST.MINIMAL, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="MINIMAL"
                 value="BROADCAST"
-                onChange={() => setInputOption(OPTIONS_MATRIX.BROADCAST.MINIMAL)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.MINIMAL)}
               />
               BROADCAST
             </label>
@@ -413,12 +418,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>  
               {JSON.stringify(OPTIONS_MATRIX.TARGETTED.IPFS, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="IPFS"
                 value="TARGETTED"
-                onChange={() => setInputOption(OPTIONS_MATRIX.TARGETTED.IPFS)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.IPFS)}
               />
               TARGETTED
             </label>
@@ -428,12 +433,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>
               {JSON.stringify(OPTIONS_MATRIX.SUBSET.IPFS, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="IPFS"
                 value="SUBSET"
-                onChange={() => setInputOption(OPTIONS_MATRIX.SUBSET.IPFS)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.IPFS)}
               />
               SUBSET
             </label>
@@ -443,12 +448,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>
               {JSON.stringify(OPTIONS_MATRIX.BROADCAST.IPFS, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="IPFS"
                 value="BROADCAST"
-                onChange={() => setInputOption(OPTIONS_MATRIX.BROADCAST.IPFS)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.IPFS)}
               />
               BROADCAST
             </label>
@@ -465,12 +470,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>  
               {JSON.stringify(OPTIONS_MATRIX.TARGETTED.GRAPH, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="GRAPH"
                 value="TARGETTED"
-                onChange={() => setInputOption(OPTIONS_MATRIX.TARGETTED.GRAPH)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.GRAPH)}
               />
               TARGETTED
             </label>
@@ -480,12 +485,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>
               {JSON.stringify(OPTIONS_MATRIX.SUBSET.GRAPH, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="GRAPH"
                 value="SUBSET"
-                onChange={() => setInputOption(OPTIONS_MATRIX.SUBSET.GRAPH)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.GRAPH)}
               />
               SUBSET
             </label>
@@ -495,12 +500,12 @@ const PayloadsTest = () => {
             {/* <CodeFormatter>
               {JSON.stringify(OPTIONS_MATRIX.BROADCAST.GRAPH, null, 4)}
             </CodeFormatter> */}
-            <label>
+            <label className='consoleLabel'>
               <input
                 type="radio"
                 name="GRAPH"
                 value="BROADCAST"
-                onChange={() => setInputOption(OPTIONS_MATRIX.BROADCAST.GRAPH)}
+                onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.GRAPH)}
               />
               BROADCAST
             </label>
@@ -516,12 +521,12 @@ const PayloadsTest = () => {
           {/* <CodeFormatter>  
             {JSON.stringify(OPTIONS_MATRIX.TARGETTED.DIRECT_PAYLOAD, null, 4)}
           </CodeFormatter> */}
-          <label>
+          <label className='consoleLabel'>
             <input
               type="radio"
               name="DIRECT_PAYLOAD"
               value="TARGETTED"
-              onChange={() => setInputOption(OPTIONS_MATRIX.TARGETTED.DIRECT_PAYLOAD)}
+              onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.DIRECT_PAYLOAD)}
             />
             TARGETTED
           </label>
@@ -531,12 +536,12 @@ const PayloadsTest = () => {
           {/* <CodeFormatter>
             {JSON.stringify(OPTIONS_MATRIX.SUBSET.DIRECT_PAYLOAD, null, 4)}
           </CodeFormatter> */}
-          <label>
+          <label className='consoleLabel'>
             <input
               type="radio"
               name="DIRECT_PAYLOAD"
               value="SUBSET"
-              onChange={() => setInputOption(OPTIONS_MATRIX.SUBSET.DIRECT_PAYLOAD)}
+              onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.DIRECT_PAYLOAD)}
             />
             SUBSET
           </label>
@@ -546,12 +551,12 @@ const PayloadsTest = () => {
           {/* <CodeFormatter>
             {JSON.stringify(OPTIONS_MATRIX.BROADCAST.DIRECT_PAYLOAD, null, 4)}
           </CodeFormatter> */}
-          <label>
+          <label className='consoleLabel'>
             <input
               type="radio"
               name="DIRECT_PAYLOAD"
               value="BROADCAST"
-              onChange={() => setInputOption(OPTIONS_MATRIX.BROADCAST.DIRECT_PAYLOAD)}
+              onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.DIRECT_PAYLOAD)}
             />
             BROADCAST
           </label>
@@ -566,13 +571,18 @@ const PayloadsTest = () => {
       channel: testChannelAddress,
       env,
       isCAIP,
+      timestamp
     });
 
     SET_OPTIONS_MATRIX(options);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [env, isCAIP]);
+  }, [env, isCAIP, timestamp]);
 
   // console.log('LOG: --> ', { env, isCAIP });
+
+  useEffect(() => {
+    localStorage.setItem('_dump_', JSON.stringify([]));
+  }, []);
 
   return (
       <div>
@@ -598,6 +608,7 @@ const PayloadsTest = () => {
         <Section theme={theme}>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: 16 }}>
             <p style={{ color: '#b57f38' }}>Please choose one of the options below and hit "send notification" button</p>
+            <p style={{ color: '#b57f38' }}>{timestamp}</p>
             <SectionButton style={{ width: 400 }} onClick={() => triggerNotification()}>send notification</SectionButton>
             {apiStatus ? <APIFeedback status={apiStatus?.status === 204 ? 'success' : 'error'}>{JSON.stringify(apiStatus)}</APIFeedback> : null}
           </div>

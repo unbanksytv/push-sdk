@@ -97,7 +97,7 @@ Allowed Options (params with * are mandatory)
 
 #### **fetching channel details**
 ```typescript
-const subscribers = await EpnsAPI.channels.getChannel({
+const channelData = await EpnsAPI.channels.getChannel({
   channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
   env: 'staging'
 });

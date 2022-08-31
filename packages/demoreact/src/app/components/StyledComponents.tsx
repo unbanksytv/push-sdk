@@ -24,7 +24,7 @@ export const SectionItem = styled.div`
   gap: 15px;
   align-items: center;
 
-  & label {
+  & label.consoleLabel {
     color: green;
   }
 `;
