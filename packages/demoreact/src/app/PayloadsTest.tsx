@@ -1,19 +1,14 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import styled from 'styled-components';
 // import * as ethers from 'ethers';
-import { Section, SectionItem, SectionButton, } from './components/StyledComponents';
+import { Section, SectionButton, CodeFormatter } from './components/StyledComponents';
 import Loader from './components/Loader';
+import Dropdown from './components/Dropdown';
 import { APIFeedback } from './components/Feedback';
 import { DarkIcon, LightIcon } from './components/Icons';
 import Web3Context, { EnvContext } from './web3context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
 import { getCAIPAddress } from './helpers';
-
-const TabButtons = styled.div`
-  margin: 20px 0;
-  display: flex;
-  flex-direction: row;
-`;
 
 const Header = styled.div`
   display: flex;
@@ -41,17 +36,26 @@ const IDENTITY_TYPE = {
   SUBGRAPH: 3
 };
 
+type optionsMatrixType = {
+  [key: string]: {
+    [key: string]: any
+  }
+};
+
 const getOptionsMatrix = (
   { signer, env = 'prod', isCAIP, channel, timestamp } :
   { signer: any, env?: string, isCAIP?: boolean, channel: string, timestamp: string }
-) => {
+) : optionsMatrixType => {
   if (!signer) throw Error(`No Signer provided`);
 
-  // console.log('isCAIP: ===> ', isCAIP);
+  const channelAddr = isCAIP ? getCAIPAddress(env, channel) : channel;
+
+
+  // EDIT here to change recipients, title, body etc
 
   return {
-    TARGETTED: {
-      DIRECT_PAYLOAD:  {
+    [NOTIFICATION_TYPE.TARGETTED]: {
+      [IDENTITY_TYPE.DIRECT_PAYLOAD]:  {
           signer,
           env,
           type: NOTIFICATION_TYPE.TARGETTED,
@@ -67,28 +71,18 @@ const getOptionsMatrix = (
               img: ''
           },
           recipients: isCAIP ? getCAIPAddress(env, '0xD8634C39BBFd4033c0d3289C4515275102423681') : '0xD8634C39BBFd4033c0d3289C4515275102423681',
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          channel: channelAddr,
       },
-      IPFS: {
+      [IDENTITY_TYPE.IPFS]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.TARGETTED,
           identityType: IDENTITY_TYPE.IPFS,
           ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // from BE devtools
-          notification: {
-              title: `[SDK-TEST] notification TITLE: ${timestamp}`,
-              body: `[sdk-test] notification BODY ${timestamp}`
-          },
-          payload: {
-              title: `[sdk-test] payload title ${timestamp}`,
-              body: `type:${NOTIFICATION_TYPE.TARGETTED} identity:${IDENTITY_TYPE.IPFS}`,
-              cta: '',
-              img: ''
-          },
-          recipients: isCAIP ? getCAIPAddress(env, '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1') : '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          recipients: isCAIP ? getCAIPAddress(env, '0xD8634C39BBFd4033c0d3289C4515275102423681') : '0xD8634C39BBFd4033c0d3289C4515275102423681',
+          channel: channelAddr,
       },
-      MINIMAL: {
+      [IDENTITY_TYPE.MINIMAL]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.TARGETTED,
@@ -103,10 +97,10 @@ const getOptionsMatrix = (
               cta: '',
               img: ''
           },
-          recipients: isCAIP ? getCAIPAddress(env, '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1') : '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          recipients: isCAIP ? getCAIPAddress(env, '0xD8634C39BBFd4033c0d3289C4515275102423681') : '0xD8634C39BBFd4033c0d3289C4515275102423681',
+          channel: channelAddr,
       },
-      GRAPH: {
+      [IDENTITY_TYPE.SUBGRAPH]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.TARGETTED,
@@ -115,22 +109,12 @@ const getOptionsMatrix = (
             id: 'aiswaryawalter/graph-poc-sample',
             counter: 3
           },
-          notification: {
-              title: `[SDK-TEST] notification TITLE: ${timestamp}`,
-              body: `[sdk-test] notification BODY ${timestamp}`
-          },
-          payload: {
-              title: `[sdk-test] payload title ${timestamp}`,
-              body: `type:${NOTIFICATION_TYPE.TARGETTED} identity:${IDENTITY_TYPE.SUBGRAPH}`,
-              cta: '',
-              img: ''
-          },
-          recipients: isCAIP ? getCAIPAddress(env, '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1') : '0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1',
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          recipients: isCAIP ? getCAIPAddress(env, '0xD8634C39BBFd4033c0d3289C4515275102423681') : '0xD8634C39BBFd4033c0d3289C4515275102423681',
+          channel: channelAddr,
       }
     },
-    SUBSET: {
-      DIRECT_PAYLOAD:  {
+    [NOTIFICATION_TYPE.SUBSET]: {
+      [IDENTITY_TYPE.DIRECT_PAYLOAD]:  {
           signer,
           env,
           type: NOTIFICATION_TYPE.SUBSET,
@@ -146,32 +130,22 @@ const getOptionsMatrix = (
               img: ''
           },
           recipients: isCAIP ? 
-            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
-            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'],
+          channel: channelAddr,
       },
-      IPFS: {
+      [IDENTITY_TYPE.IPFS]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.SUBSET,
           identityType: IDENTITY_TYPE.IPFS,
           ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // from BE devtools
-          notification: {
-              title: `[SDK-TEST] notification TITLE: ${timestamp}`,
-              body: `[sdk-test] notification BODY ${timestamp}`
-          },
-          payload: {
-              title: `[sdk-test] payload title ${timestamp}`,
-              body: `type:${NOTIFICATION_TYPE.SUBSET} identity:${IDENTITY_TYPE.IPFS}`,
-              cta: '',
-              img: ''
-          },
           recipients: isCAIP ? 
-            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
-            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'],
+          channel: channelAddr,
       },
-      MINIMAL: {
+      [IDENTITY_TYPE.MINIMAL]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.SUBSET,
@@ -187,11 +161,11 @@ const getOptionsMatrix = (
               img: ''
           },
           recipients: isCAIP ? 
-            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
-            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'],
+          channel: channelAddr,
       },
-      GRAPH: {
+      [IDENTITY_TYPE.SUBGRAPH]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.SUBSET,
@@ -200,24 +174,14 @@ const getOptionsMatrix = (
             id: 'aiswaryawalter/graph-poc-sample',
             counter: 3
           },
-          notification: {
-              title: `[SDK-TEST] notification TITLE: ${timestamp}`,
-              body: `[sdk-test] notification BODY ${timestamp}`
-          },
-          payload: {
-              title: `[sdk-test] payload title ${timestamp}`,
-              body: `type:${NOTIFICATION_TYPE.SUBSET} identity:${IDENTITY_TYPE.SUBGRAPH}`,
-              cta: '',
-              img: ''
-          },
           recipients: isCAIP ? 
-            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'].map(addr => getCAIPAddress(env, addr))
-            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0x52f856A160733A860ae7DC98DC71061bE33A28b3'],
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+            ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'].map(addr => getCAIPAddress(env, addr))
+            : ['0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', '0xD8634C39BBFd4033c0d3289C4515275102423681'],
+          channel: channelAddr,
       }
     },
-    BROADCAST: {
-      DIRECT_PAYLOAD:  {
+    [NOTIFICATION_TYPE.BROADCAST]: {
+      [IDENTITY_TYPE.DIRECT_PAYLOAD]:  {
           signer,
           env,
           type: NOTIFICATION_TYPE.BROADCAST,
@@ -232,27 +196,17 @@ const getOptionsMatrix = (
               cta: '',
               img: ''
           },
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          channel: channelAddr,
       },
-      IPFS: {
+      [IDENTITY_TYPE.IPFS]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.BROADCAST,
           identityType: IDENTITY_TYPE.IPFS,
           ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // from BE devtools
-          notification: {
-              title: `[SDK-TEST] notification TITLE: ${timestamp}`,
-              body: `[sdk-test] notification BODY ${timestamp}`
-          },
-          payload: {
-              title: `[sdk-test] payload title ${timestamp}`,
-              body: `type:${NOTIFICATION_TYPE.BROADCAST} identity:${IDENTITY_TYPE.IPFS}`,
-              cta: '',
-              img: ''
-          },
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          channel: channelAddr,
       },
-      MINIMAL: {
+      [IDENTITY_TYPE.MINIMAL]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.BROADCAST,
@@ -267,9 +221,9 @@ const getOptionsMatrix = (
               cta: '',
               img: ''
           },
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          channel: channelAddr,
       },
-      GRAPH: {
+      [IDENTITY_TYPE.SUBGRAPH]: {
           signer,
           env,
           type: NOTIFICATION_TYPE.BROADCAST,
@@ -278,22 +232,25 @@ const getOptionsMatrix = (
             id: 'aiswaryawalter/graph-poc-sample',
             counter: 3
           },
-          notification: {
-              title: `[SDK-TEST] notification TITLE: ${timestamp}`,
-              body: `[sdk-test] notification BODY ${timestamp}`
-          },
-          payload: {
-              title: `[sdk-test] payload title ${timestamp}`,
-              body: `type:${NOTIFICATION_TYPE.BROADCAST} identity:${IDENTITY_TYPE.SUBGRAPH}`,
-              cta: '',
-              img: ''
-          },
-          channel: isCAIP ? getCAIPAddress(env, channel) : channel,
+          channel: channelAddr,
       }
     },
   };
 
 }
+
+const NOTIFICATION_TYPE_OPTIONS = [
+  { label: 'TARGETTED', value: '3' },
+  { label: 'SUBSET', value: '4' },
+  { label: 'BROADCAST', value: '1' }
+];
+
+const IDENTITY_TYPE_OPTIONS = [
+  { label: 'MINIMAL', value: '0' },
+  { label: 'IPFS', value: '1' },
+  { label: 'DIRECT_PAYLOAD', value: '2' },
+  { label: 'SUBGRAPH', value: '3' }
+]
 
 
 const PayloadsTest = () => {
@@ -301,12 +258,13 @@ const PayloadsTest = () => {
   const { env, isCAIP }  = useContext<any>(EnvContext);
   const [isLoading, setLoading] = useState(false);
   const [theme, setTheme] = useState('dark');
-  const [viewType, setViewType] = useState(IDENTITY_TYPE.DIRECT_PAYLOAD);
+ 
   const [apiStatus, setApiStatus] = useState<any>();
-  const [inputOption, setInputOption] = useState<any>();
-  const [OPTIONS_MATRIX, SET_OPTIONS_MATRIX] = useState<any>({});
-  const [timestamp, setTimestamp] = useState<string>(JSON.stringify(Date.now()));
-  
+
+
+  const [notificationTypeOption, setNotificationTypeOption] = useState('3');
+  const [identityTypeOption, setIdentityTypeOption] = useState('2');
+
   // const PK = 'd5797b255933f72a6a084fcfc0f5f4881defee8c1ae387197805647d0b10a8a0'; // PKey, server code
   // const Pkey = `0x${PK}`;
   // const testChannelAddress = '0xD8634C39BBFd4033c0d3289C4515275102423681'; // server code
@@ -319,6 +277,24 @@ const PayloadsTest = () => {
   // for UI code
   const signer = library.getSigner(account);
 
+  const OPTIONS_MATRIX: optionsMatrixType = getOptionsMatrix({
+    signer,
+    channel: testChannelAddress,
+    env,
+    isCAIP,
+    timestamp: JSON.stringify(Date.now())
+  });
+
+  const onChangeNotificationType = (e: any) => {
+    setApiStatus('');
+    setNotificationTypeOption(e.target.value);
+  };
+
+  const onChangeIdentityType = (e: any) => {
+    setApiStatus('');
+    setIdentityTypeOption(e.target.value);
+  };
+
 
   const toggleTheme = () => {
     setTheme(lastTheme => {
@@ -326,18 +302,15 @@ const PayloadsTest = () => {
     })
   };
 
-  const toggleIdentity = (_identity: any) => {
-    setApiStatus('');
-    setViewType(_identity);
-  };
-
   const triggerNotification = async () => {
     setApiStatus('');
     setLoading(true);
     try {
-      console.log('inputOption: ', inputOption);
-  
-      const apiResponse = await EpnsAPI.payloads.sendNotification(inputOption);
+      const sdkInput = OPTIONS_MATRIX[notificationTypeOption][identityTypeOption];
+
+      console.log('sdkInput: ', sdkInput);
+
+      const apiResponse = await EpnsAPI.payloads.sendNotification(sdkInput);
       console.log('apiResponse: ', apiResponse);
       setApiStatus({
         status: apiResponse?.status,
@@ -352,237 +325,21 @@ const PayloadsTest = () => {
   };
 
 
-  const selectInputOption = (_option: any) => {
-    setTimestamp(JSON.stringify(Date.now()));
-    setInputOption(_option);
-  };
+  const renderInputOption = () => {
+    const optionsObject = OPTIONS_MATRIX[notificationTypeOption.toString()][identityTypeOption.toString()];
 
-  const renderSections = () => {
-    if (viewType === IDENTITY_TYPE.MINIMAL) {
+    if (optionsObject) {
+      const { signer, ...renderInputOption} = optionsObject;
+
       return (
-        <>
-          <b className='headerText'>MINIMAL: </b>
-          <SectionItem>
-            {/* <CodeFormatter>  
-              {JSON.stringify(OPTIONS_MATRIX.TARGETTED.MINIMAL, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="MINIMAL"
-                value="TARGETTED"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.MINIMAL)}
-              />
-              TARGETTED
-            </label>
-          </SectionItem>
-  
-          <SectionItem>
-            {/* <CodeFormatter>
-              {JSON.stringify(OPTIONS_MATRIX.SUBSET.MINIMAL, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="MINIMAL"
-                value="SUBSET"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.MINIMAL)}
-              />
-              SUBSET
-            </label>
-          </SectionItem>
-  
-          <SectionItem>
-            {/* <CodeFormatter>
-              {JSON.stringify(OPTIONS_MATRIX.BROADCAST.MINIMAL, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="MINIMAL"
-                value="BROADCAST"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.MINIMAL)}
-              />
-              BROADCAST
-            </label>
-          </SectionItem>
-        </>
+        <CodeFormatter>  
+          {JSON.stringify({ ...renderInputOption, signer: {} }, null, 4)}
+        </CodeFormatter>
       );
     }
 
-    if (viewType === IDENTITY_TYPE.IPFS) {
-      return (
-        <>
-          <b className='headerText'>IPFS: </b>
-          <SectionItem>
-            {/* <CodeFormatter>  
-              {JSON.stringify(OPTIONS_MATRIX.TARGETTED.IPFS, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="IPFS"
-                value="TARGETTED"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.IPFS)}
-              />
-              TARGETTED
-            </label>
-          </SectionItem>
-  
-          <SectionItem>
-            {/* <CodeFormatter>
-              {JSON.stringify(OPTIONS_MATRIX.SUBSET.IPFS, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="IPFS"
-                value="SUBSET"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.IPFS)}
-              />
-              SUBSET
-            </label>
-          </SectionItem>
-  
-          <SectionItem>
-            {/* <CodeFormatter>
-              {JSON.stringify(OPTIONS_MATRIX.BROADCAST.IPFS, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="IPFS"
-                value="BROADCAST"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.IPFS)}
-              />
-              BROADCAST
-            </label>
-          </SectionItem>
-        </>
-      );
-    }
-
-    if (viewType === IDENTITY_TYPE.SUBGRAPH) {
-      return (
-        <>
-          <b className='headerText'>GRAPH: (make sure the account connected has the associated graph ID)</b>
-          <SectionItem>
-            {/* <CodeFormatter>  
-              {JSON.stringify(OPTIONS_MATRIX.TARGETTED.GRAPH, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="GRAPH"
-                value="TARGETTED"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.GRAPH)}
-              />
-              TARGETTED
-            </label>
-          </SectionItem>
-  
-          <SectionItem>
-            {/* <CodeFormatter>
-              {JSON.stringify(OPTIONS_MATRIX.SUBSET.GRAPH, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="GRAPH"
-                value="SUBSET"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.GRAPH)}
-              />
-              SUBSET
-            </label>
-          </SectionItem>
-  
-          <SectionItem>
-            {/* <CodeFormatter>
-              {JSON.stringify(OPTIONS_MATRIX.BROADCAST.GRAPH, null, 4)}
-            </CodeFormatter> */}
-            <label className='consoleLabel'>
-              <input
-                type="radio"
-                name="GRAPH"
-                value="BROADCAST"
-                onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.GRAPH)}
-              />
-              BROADCAST
-            </label>
-          </SectionItem>
-        </>
-      );
-    }
-
-    return (
-      <>
-        <b className='headerText'>DIRECT_PAYLOAD: </b>
-        <SectionItem>
-          {/* <CodeFormatter>  
-            {JSON.stringify(OPTIONS_MATRIX.TARGETTED.DIRECT_PAYLOAD, null, 4)}
-          </CodeFormatter> */}
-          <label className='consoleLabel'>
-            <input
-              type="radio"
-              name="DIRECT_PAYLOAD"
-              value="TARGETTED"
-              onChange={() => selectInputOption(OPTIONS_MATRIX.TARGETTED.DIRECT_PAYLOAD)}
-            />
-            TARGETTED
-          </label>
-        </SectionItem>
-
-        <SectionItem>
-          {/* <CodeFormatter>
-            {JSON.stringify(OPTIONS_MATRIX.SUBSET.DIRECT_PAYLOAD, null, 4)}
-          </CodeFormatter> */}
-          <label className='consoleLabel'>
-            <input
-              type="radio"
-              name="DIRECT_PAYLOAD"
-              value="SUBSET"
-              onChange={() => selectInputOption(OPTIONS_MATRIX.SUBSET.DIRECT_PAYLOAD)}
-            />
-            SUBSET
-          </label>
-        </SectionItem>
-
-        <SectionItem>
-          {/* <CodeFormatter>
-            {JSON.stringify(OPTIONS_MATRIX.BROADCAST.DIRECT_PAYLOAD, null, 4)}
-          </CodeFormatter> */}
-          <label className='consoleLabel'>
-            <input
-              type="radio"
-              name="DIRECT_PAYLOAD"
-              value="BROADCAST"
-              onChange={() => selectInputOption(OPTIONS_MATRIX.BROADCAST.DIRECT_PAYLOAD)}
-            />
-            BROADCAST
-          </label>
-        </SectionItem>
-      </>
-    );
-  };
-
-  useEffect(() => {
-    const options = getOptionsMatrix({
-      signer,
-      channel: testChannelAddress,
-      env,
-      isCAIP,
-      timestamp
-    });
-
-    SET_OPTIONS_MATRIX(options);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [env, isCAIP, timestamp]);
-
-  // console.log('LOG: --> ', { env, isCAIP });
-
-  useEffect(() => {
-    localStorage.setItem('_dump_', JSON.stringify([]));
-  }, []);
+    return null;
+  }
 
   return (
       <div>
@@ -595,27 +352,43 @@ const PayloadsTest = () => {
 
         <p>IMPORTANT: Will only work if the channel address you are providing exists in the ENV you are running the app!!</p>
                 
-        <TabButtons>
-          <SectionButton onClick={() => { toggleIdentity(IDENTITY_TYPE.DIRECT_PAYLOAD) }}>DIRECT PAYLOAD</SectionButton>
-          <SectionButton onClick={() => { toggleIdentity(IDENTITY_TYPE.MINIMAL) }}>MINIMAL</SectionButton> 
-          <SectionButton onClick={() => { toggleIdentity(IDENTITY_TYPE.IPFS) }}>IPFS</SectionButton>
-          <SectionButton onClick={() => { toggleIdentity(IDENTITY_TYPE.SUBGRAPH) }}>SUBGRAPH</SectionButton>
-        </TabButtons>
 
         <Loader show={isLoading} />
 
        
         <Section theme={theme}>
           <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', marginBottom: 16 }}>
-            <p style={{ color: '#b57f38' }}>Please choose one of the options below and hit "send notification" button</p>
-            <p style={{ color: '#b57f38' }}>{timestamp}</p>
+            <p style={{ color: '#b57f38' }}>Please choose both the options below and hit "send notification" button</p>
+
+            <div style={{ display: 'flex', gap: 20 }}>
+              <Dropdown
+                style={{ color: 'green' }}
+                width={200}
+                label="NOTIFICATION TYPE"
+                options={NOTIFICATION_TYPE_OPTIONS}
+                value={notificationTypeOption}
+                onChange={onChangeNotificationType}
+              />
+
+              <Dropdown
+                style={{ color: 'green' }}
+                width={200}
+                label="IDENTITY TYPE"
+                options={IDENTITY_TYPE_OPTIONS}
+                value={identityTypeOption}
+                onChange={onChangeIdentityType}
+              />
+            </div>
+
+
+            <div>
+              {renderInputOption()}
+            </div>
+
             <SectionButton style={{ width: 400 }} onClick={() => triggerNotification()}>send notification</SectionButton>
             {apiStatus ? <APIFeedback status={apiStatus?.status === 204 ? 'success' : 'error'}>{JSON.stringify(apiStatus)}</APIFeedback> : null}
           </div>
-
-          {renderSections()}
         </Section>
-
 
       </div>
   );

@@ -69,11 +69,11 @@ export interface ISendNotificationInputOptions {
     signer: any;
     type: number;
     identityType: number;
-    notification: {
+    notification?: {
       title: string;
       body: string;
     };
-    payload: {
+    payload?: {
       sectype?: string;
       title: string;
       body: string;
