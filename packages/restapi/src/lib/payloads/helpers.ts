@@ -17,28 +17,37 @@ export function getUUID() {
 /**
  * This function will map the Input options passed to the SDK to the "payload" structure
  * needed by the API input
+ * 
+ * We need notificationPayload only for identityType
+ *  - DIRECT_PAYLOAD
+ *  - MINIMAL
  */
 export function getPayloadForAPIInput(
   inputOptions: ISendNotificationInputOptions,
   recipients: any
-) : INotificationPayload{
-  return {
-    notification: {
-      title: inputOptions?.notification?.title,
-      body: inputOptions?.notification?.body
-    },
-    data: {
-      acta: inputOptions?.payload?.cta || '',
-      aimg: inputOptions?.payload?.img || '',
-      amsg: inputOptions?.payload?.body || '',
-      asub: inputOptions?.payload?.title || '',
-      type: inputOptions?.type?.toString() || '',
-      ...(inputOptions?.expiry && { etime: inputOptions?.expiry }),
-      ...(inputOptions?.hidden && { hidden: inputOptions?.hidden }),
-      ...(inputOptions?.payload?.sectype && { sectype: inputOptions?.payload?.sectype })
-    },
-    recipients: recipients
-  };
+) : INotificationPayload | null {
+
+  if (inputOptions?.notification && inputOptions?.payload) {
+    return {
+      notification: {
+        title: inputOptions?.notification?.title,
+        body: inputOptions?.notification?.body
+      },
+      data: {
+        acta: inputOptions?.payload?.cta || '',
+        aimg: inputOptions?.payload?.img || '',
+        amsg: inputOptions?.payload?.body || '',
+        asub: inputOptions?.payload?.title || '',
+        type: inputOptions?.type?.toString() || '',
+        ...(inputOptions?.expiry && { etime: inputOptions?.expiry }),
+        ...(inputOptions?.hidden && { hidden: inputOptions?.hidden }),
+        ...(inputOptions?.payload?.sectype && { sectype: inputOptions?.payload?.sectype })
+      },
+      recipients: recipients
+    };
+  }
+
+  return null;
 }
 
 /**
@@ -216,7 +225,7 @@ export function getPayloadIdentity({
   graph = {},
 } : {
   identityType: number,
-  payload: INotificationPayload,
+  payload: any,
   notificationType?: number,
   ipfsHash?: string,
   graph?: any,

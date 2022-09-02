@@ -10,8 +10,29 @@ import {
   getUUID
 } from './helpers';
 import { getCAIPAddress, getCAIPDetails, getConfig } from '../helpers';
-import { NOTIFICATION_TYPE } from './constants';
+import { IDENTITY_TYPE } from './constants';
 
+
+/**
+ * Validate options for some scenarios
+ */
+function validateOptions(options: any) {
+  if (!options?.channel) {
+    throw '[EPNS-SDK] - Error - sendNotification() - "channel" is mandatory!';
+  }
+
+  /**
+   * Apart from IPFS, GRAPH use cases "notification", "payload" is mandatory
+   */
+  if (options?.identityType === IDENTITY_TYPE.DIRECT_PAYLOAD || options?.identityType === IDENTITY_TYPE.MINIMAL) {
+    if (!options.notification) {
+      throw '[EPNS-SDK] - Error - sendNotification() - "notification" mandatory for Identity Type: Direct Payload, Minimal!';
+    }
+    if (!options.payload) {
+      throw '[EPNS-SDK] - Error - sendNotification() - "payload" mandatory for Identity Type: Direct Payload, Minimal!';
+    }
+  }
+}
 
 export async function sendNotification(options: ISendNotificationInputOptions) {
   try {
@@ -27,14 +48,13 @@ export async function sendNotification(options: ISendNotificationInputOptions) {
       env = 'prod'
     } = options || {};
 
+    validateOptions(options);
+
+
     const _channelAddress = getCAIPAddress(env, channel, 'Channel');
     const channelCAIPDetails = getCAIPDetails(_channelAddress);
 
     if (!channelCAIPDetails) throw Error('Invalid Channel CAIP!');
-
-    if (type === NOTIFICATION_TYPE.BROADCAST && !channel) {
-      throw '[EPNS-SDK] - Error - sendNotification() - "channel" mandatory for Notification Type: Broadcast!';
-    }
 
     const uuid = getUUID();
     const chainId = parseInt(channelCAIPDetails.networkId, 10);
