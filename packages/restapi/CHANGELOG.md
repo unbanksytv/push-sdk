@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.10](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.9...restapi-0.1.10) (2022-09-02)
+
+
+### Bug Fixes
+
+* **restapi:** remove keys from ipfs, graph inputs ([cb45674](https://github.com/ethereum-push-notification-service/epns-sdk/commit/cb45674246a9aea5a7f4b90614f674c16fcf473b))
+
+
+
 ## [0.1.9](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.8...restapi-0.1.9) (2022-08-31)
 
 
