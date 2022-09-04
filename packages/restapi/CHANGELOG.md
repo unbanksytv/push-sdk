@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.11](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.10...restapi-0.1.11) (2022-09-04)
+
+
+### Bug Fixes
+
+* **restapi:** update the base urls ([604f189](https://github.com/ethereum-push-notification-service/epns-sdk/commit/604f189dcf3503200193b2f73c00ebd7cda2dbaa))
+
+
+
 ## [0.1.10](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.9...restapi-0.1.10) (2022-09-02)
 
 
