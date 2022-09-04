@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.12](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.11...restapi-0.1.12) (2022-09-04)
+
+
+### Bug Fixes
+
+* **restapi:** remove max limit for now ([a2470f8](https://github.com/ethereum-push-notification-service/epns-sdk/commit/a2470f8b1028879e9feeb45ba589f4db18654b36))
+
+
+
 ## [0.1.11](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.10...restapi-0.1.11) (2022-09-04)
 
 
