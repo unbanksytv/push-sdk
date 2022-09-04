@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.13](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.12...restapi-0.1.13) (2022-09-04)
+
+
+### Bug Fixes
+
+* **restapi:** update the polygon mumbai contract address ([c42f94d](https://github.com/ethereum-push-notification-service/epns-sdk/commit/c42f94db2e453df3cdb376ab4269d521e48c07ad))
+
+
+
 ## [0.1.12](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.11...restapi-0.1.12) (2022-09-04)
 
 
