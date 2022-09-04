@@ -1,15 +1,11 @@
-
 import Constants from './constants';
-
-
 
 const { ENV } = Constants;
 
-
 // for methods not needing the entire config
 export const API_BASE_URL = {
-  [ENV.PROD]: 'https://backend-prod.epns.io/apis',
-  [ENV.STAGING]: 'https://backend-kovan.epns.io/apis',
+  [ENV.PROD]: 'https://backend.epns.io/apis',
+  [ENV.STAGING]: 'https://backend-staging.epns.io/apis',
   [ENV.DEV]: 'https://backend-dev.epns.io/apis'
 };
 

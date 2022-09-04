@@ -16,7 +16,7 @@ Import in your file
 import * as EpnsAPI from "@epnsproject/sdk-restapi";
 ```
 
-**NOTE on Addresses:**
+### **NOTE on Addresses:**
 
 In any of the below methods (unless explicitly stated otherwise) we accept either - 
 - [CAIP format](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-10.md#test-cases): for any on chain addresses ***We strongly recommend using this address format***. 
@@ -27,16 +27,16 @@ In any of the below methods (unless explicitly stated otherwise) we accept eithe
 
 
 
-**NOTE on generating the "signer" object for different platforms:**
+### **NOTE on generating the "signer" object for different platforms:**
 
-- When using in SERVER-SIDE code: 
+#### When using in SERVER-SIDE code: 
 ```typescript
 const ethers = require('ethers');
 const PK = 'your_channel_address_secret_key';
 const Pkey = `0x${PK}`;
 const signer = new ethers.Wallet(Pkey);
 ```
-- When using in FRONT-END code: 
+#### When using in FRONT-END code: 
 ```typescript
 // any other web3 ui lib is also acceptable
 import { useWeb3React } from "@web3-react/core";
