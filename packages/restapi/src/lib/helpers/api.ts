@@ -11,9 +11,9 @@ export function getQueryParams(obj: any) {
 export function getLimit(passedLimit?: number) {
     if (!passedLimit) return Constants.PAGINATION.LIMIT;
   
-    if (passedLimit > Constants.PAGINATION.LIMIT_MAX) {
-      return Constants.PAGINATION.LIMIT_MAX;
-    }
+    // if (passedLimit > Constants.PAGINATION.LIMIT_MAX) {
+    //   return Constants.PAGINATION.LIMIT_MAX;
+    // }
   
     return passedLimit;
 }
