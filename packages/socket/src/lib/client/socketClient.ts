@@ -23,8 +23,7 @@ export function createSocketConnection({
     const transports = ['websocket'];
 
     let epnsSocket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;  
-    
-    // console.log('--> ', epnsWSUrl);
+  
   
     try {
       const userAddressInCAIP = getCAIPAddress(env, user, 'User');
@@ -40,7 +39,8 @@ export function createSocketConnection({
       });
   
     } catch (e) {
-      console.error('[EPNS-SDK] - Socket connection error: ', JSON.stringify(e));
+      console.error('[EPNS-SDK] - Socket connection error: ');
+      console.error(e);
     } finally {
       // eslint-disable-next-line no-unsafe-finally
       return epnsSocket;
