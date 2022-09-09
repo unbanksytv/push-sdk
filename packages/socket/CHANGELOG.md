@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+# [0.1.0](https://github.com/ethereum-push-notification-service/epns-sdk/compare/socket-0.0.3...socket-0.1.0) (2022-09-09)
+
+
+### Features
+
+* **socket:** readme update and sample usage ([c6f609e](https://github.com/ethereum-push-notification-service/epns-sdk/commit/c6f609e71f4e1402ed0978bca4077ff180b2edf2))
+
+
+
 ## [0.0.3](https://github.com/ethereum-push-notification-service/epns-sdk/compare/socket-0.0.2...socket-0.0.3) (2022-09-09)
 
 

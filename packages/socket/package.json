@@ -1,6 +1,6 @@
 {
   "name": "@epnsproject/sdk-socket",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "type": "commonjs",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
