@@ -18,6 +18,7 @@ Click on the packages to view more details.
 
 - [@epnsproject/sdk-restapi](./packages/restapi/README.md)
 - [@epnsproject/sdk-uiweb](./packages/uiweb/README.md)
+- [@epnsproject/sdk-socket](./packages/socket/README.md)
 - [@epnsproject/sdk-uiembed](./packages/uiembed/README.md)
 
 
