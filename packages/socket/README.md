@@ -83,3 +83,94 @@ In any of the below methods (unless explicitly stated otherwise) we accept eithe
 
 - ETH address format: only for backwards compatibility. 
 (Example: `0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb`)
+
+
+### A very basic example of using SDK sockets in a React App
+
+```
+import { useState, useEffect } from "react";
+import { createSocketConnection, EVENTS } from '@epnsproject/sdk-socket';
+
+const user = '0xD8634C39BBFd4033c0d3289C4515275102423681';
+const chainId = 42;
+
+const userCAIP = `eip155:${chainId}:${user}`;
+
+function App() {
+  const [sdkSocket, setSDKSocket] = useState<any>(null);
+  const [isConnected, setIsConnected] = useState(sdkSocket?.connected);
+
+  const addSocketEvents = () => {
+    sdkSocket?.on(EVENTS.CONNECT, () => {
+      setIsConnected(true);
+    })
+
+    sdkSocket?.on(EVENTS.DISCONNECT, () => {
+      setIsConnected(false);
+    })
+
+    sdkSocket?.on(EVENTS.USER_FEEDS, (feedsList) => {
+      /**
+       * "feedsList" is an [] which has the latest notification 
+       */
+      console.log(feedsList);
+    })
+  };
+
+  const removeSocketEvents = () => {
+    sdkSocket?.off(EVENTS.CONNECT);
+    sdkSocket?.off(EVENTS.DISCONNECT);
+  };
+
+  const toggleConnection = () => {
+    if (sdkSocket?.connected) {
+      sdkSocket.disconnect();
+    } else {
+      sdkSocket.connect();
+    }
+  };
+
+
+  useEffect(() => {
+    if (sdkSocket) {
+      addSocketEvents();
+    }
+    return () => {
+      removeSocketEvents();
+    };
+  }, [sdkSocket]);
+
+  useEffect(() => {
+    const connectionObject = createSocketConnection({
+      user: userCAIP,
+      env: 'dev',
+      socketOptions: { autoConnect: false }
+    });
+
+
+    setSDKSocket(connectionObject);
+
+    return () => {
+      if (sdkSocket) {
+        sdkSocket.disconnect();
+      }
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>Socket Hello World</h1>
+
+      <div>
+        <p>Connection Status : {JSON.stringify(isConnected)}</p>
+
+        <button onClick={toggleConnection}>{isConnected ? 'disconnect' : 'connect'}</button>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Please note connecting with sockets and maintaining the state of the connection object in your DAPP might have a different setup like first getting the `user` account and `chainId` and then connecting with socket. You can use [React Context](https://reactjs.org/docs/context.html) for state management.
