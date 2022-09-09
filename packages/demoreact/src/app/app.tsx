@@ -5,13 +5,15 @@ import { useWeb3React } from "@web3-react/core";
 import ConnectButton from './components/Connect';
 import { Checkbox } from './components/Checkbox';
 import Dropdown from './components/Dropdown';
-import Web3Context, { EnvContext } from './web3context';
+import { Web3Context, EnvContext, SocketContext } from './context';
+import { useSDKSocket } from './hooks';
 import Logo from '../assets/epnsLogo.png';
 import NotificationsTest from './NotificationsTest';
 import SecretNotificationsTest from './SecretNotificationsTest';
 import ChannelsTest from './ChannelsTest';
 import EmbedTest from './EmbedTest';
 import PayloadsTest from './PayloadsTest';
+import SocketTest from './SocketTest';
 
 
 interface Web3ReactState {
@@ -110,6 +112,13 @@ export function App() {
 
   const [env, setEnv] = useState('prod');
   const [isCAIP, setIsCAIP] = useState(false);
+ 
+  const socketData = useSDKSocket({
+    account: web3Data.account,
+    chainId: web3Data.chainId,
+    env,
+    isCAIP,
+  })
 
   const onChangeEnv = (e: any) => {
     setEnv(e.target.value);
@@ -148,43 +157,51 @@ export function App() {
       <EnvContext.Provider value={{ env, isCAIP }}>
       {checkForWeb3Data(web3Data) ? (
         <Web3Context.Provider value={web3Data}>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <NavMenu>
-                  <Link to="/notifications" className='nav-button'>NOTIFICATIONS</Link>
-                  <Link to="/secret" className='nav-button'>SECRET NOTIFICATION</Link>
-                  <Link to="/channels" className='nav-button'>CHANNELS</Link>
-                  <Link to="/payloads" className='nav-button'>PAYLOADS</Link>
-                  <Link to="/embed" className='nav-button'>EMBDED</Link>
-                </NavMenu>
-              }
-            />
-            <Route
-              path="/notifications"
-              element={<NotificationsTest />}
-            />
-            <Route
-              path="/secret"
-              element={<SecretNotificationsTest />}
-            />
-        
-            <Route
-              path="/channels"
-              element={<ChannelsTest />}
-            />
+          <SocketContext.Provider value={socketData}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <NavMenu>
+                    <Link to="/notifications" className='nav-button'>NOTIFICATIONS</Link>
+                    <Link to="/secret" className='nav-button'>SECRET NOTIFICATION</Link>
+                    <Link to="/channels" className='nav-button'>CHANNELS</Link>
+                    <Link to="/payloads" className='nav-button'>PAYLOADS</Link>
+                    <Link to="/socket" className='nav-button'>SOCKET</Link>
+                    <Link to="/embed" className='nav-button'>EMBDED</Link>
+                  </NavMenu>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={<NotificationsTest />}
+              />
+              <Route
+                path="/secret"
+                element={<SecretNotificationsTest />}
+              />
+          
+              <Route
+                path="/channels"
+                element={<ChannelsTest />}
+              />
 
-            <Route
-              path="/payloads"
-              element={<PayloadsTest />}
-            />
+              <Route
+                path="/payloads"
+                element={<PayloadsTest />}
+              />
 
-            <Route
-              path="/embed"
-              element={<EmbedTest />}
-            />
-          </Routes>
+              <Route
+                path="/socket"
+                element={<SocketTest />}
+              />
+
+              <Route
+                path="/embed"
+                element={<EmbedTest />}
+              />
+            </Routes>
+          </SocketContext.Provider>
         </Web3Context.Provider>
       ) : null}
       </EnvContext.Provider>

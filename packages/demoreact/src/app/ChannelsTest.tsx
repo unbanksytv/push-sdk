@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Section, SectionItem, CodeFormatter, SectionButton } from './components/StyledComponents';
 import Loader from './components/Loader'
-import Web3Context, { EnvContext } from './web3context';
+import { Web3Context, EnvContext } from './context';
 import * as EpnsAPI from '@epnsproject/sdk-restapi';
 import { getCAIPAddress } from './helpers';
 
