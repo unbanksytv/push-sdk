@@ -1,13 +1,7 @@
-import { DefaultEventsMap } from '@socket.io/component-emitter';
-import io, { Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { API_URLS } from '../config';
 import { getCAIPAddress } from '../helpers';
-
-export type SocketInputOptions = {
-  user: string,
-  env: string,
-  socketOptions?: any
-};
+import { SocketInputOptions } from '../types';
 
 export function createSocketConnection({
   user,
@@ -22,7 +16,7 @@ export function createSocketConnection({
     const epnsWSUrl = API_URLS[env];
     const transports = ['websocket'];
 
-    let epnsSocket: Socket<DefaultEventsMap, DefaultEventsMap> | null = null;  
+    let epnsSocket = null;  
   
   
     try {
