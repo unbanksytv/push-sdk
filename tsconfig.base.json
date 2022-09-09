@@ -17,6 +17,7 @@
     "paths": {
       "@epnsproject/sdk-ledgerlive": ["packages/ledgerlive/src/index.ts"],
       "@epnsproject/sdk-restapi": ["packages/restapi/src/index.ts"],
+      "@epnsproject/sdk-socket": ["packages/socket/src/index.ts"],
       "@epnsproject/sdk-uiembed": ["packages/uiembed/src/index.ts"],
       "@epnsproject/sdk-uimobile": ["packages/uimobile/src/index.ts"],
       "@epnsproject/sdk-uiweb": ["packages/uiweb/src/index.ts"]
