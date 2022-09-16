@@ -4,7 +4,7 @@ import {
   EVENTS
 } from '@epnsproject/sdk-socket';
 
-// import { getCAIPAddress } from '../helpers';
+import { getCAIPAddress } from '../helpers';
 
 export type SDKSocketHookOptions = {
   account?: string | null,
@@ -21,36 +21,36 @@ export const useSDKSocket = ({ account, env = '', chainId, isCAIP }: SDKSocketHo
   const [lastConnectionTimestamp, setLastConnectionTimestamp] = useState('');
 
   const addSocketEvents = () => {
-    // console.warn('\n--> addSocketEvents');
+    console.warn('\n--> addSocketEvents');
     epnsSDKSocket?.on(EVENTS.CONNECT, () => {
-      // console.log('CONNECTED: ');
+      console.log('CONNECTED: ');
       setIsSDKSocketConnected(true);
       setLastConnectionTimestamp((new Date()).toUTCString());
     });
 
     epnsSDKSocket?.on(EVENTS.DISCONNECT, () => {
-      // console.log('DIS-CONNECTED: ');
+      console.log('DIS-CONNECTED: ');
       setIsSDKSocketConnected(false);
       setFeedsSinceLastConnection([]);
       setLastConnectionTimestamp('');
     });
 
-    // console.log('\t-->will attach eachFeed event now');
-    epnsSDKSocket?.on(EVENTS.USER_FEEDS, (feedList: any) => {
+    console.log('\t-->will attach eachFeed event now');
+    epnsSDKSocket?.on(EVENTS.USER_FEEDS, (feed: any) => {
       /**
-       * We receive a feed list which has 1 item.
+       * We receive a 1 feed item.
        */
-      console.log("\n\n\n\neachFeed event: ", feedList);
+      console.log("\n\n\n\neachFeed event: ", feed);
 
       // do stuff with data
       setFeedsSinceLastConnection((oldFeeds: any) => {
-        return [...oldFeeds, ...feedList]
+        return [...oldFeeds, feed]
       });
     });
   };
 
   const removeSocketEvents = () => {
-    // console.warn('\n--> removeSocketEvents');
+    console.warn('\n--> removeSocketEvents');
     epnsSDKSocket?.off(EVENTS.CONNECT);
     epnsSDKSocket?.off(EVENTS.DISCONNECT);
     epnsSDKSocket?.off(EVENTS.USER_FEEDS);
@@ -83,11 +83,11 @@ export const useSDKSocket = ({ account, env = '', chainId, isCAIP }: SDKSocketHo
       }
       
       const connectionObject = createSocketConnection({
-        user: account,
+        user: getCAIPAddress(env, account, 'User'),
         env,
         socketOptions: { autoConnect: false }
       });
-      // console.warn('new connection object: ', connectionObject);
+      console.warn('new connection object: ', connectionObject);
       // set to context
       setEpnsSDKSocket(connectionObject);
     }

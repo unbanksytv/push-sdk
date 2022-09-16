@@ -7,6 +7,6 @@ export const ENV = {
 export const EVENTS = {
   CONNECT: 'connect',
   DISCONNECT: 'disconnect',
-  USER_FEEDS: 'eachFeed',
-  USER_SPAM_FEEDS: 'eachSpam'
+  USER_FEEDS: 'userFeeds',
+  USER_SPAM_FEEDS: 'userSpamFeeds'
 };
