@@ -21,9 +21,8 @@ export function createSocketConnection({
   
     try {
       const userAddressInCAIP = getCAIPAddress(env, user, 'User');
-      const [, , address] = userAddressInCAIP.split(':');
-
-      const query = { address };
+      // the backend only accepts CAIP
+      const query = { address: userAddressInCAIP };
 
       epnsSocket = io(epnsWSUrl, {
         transports,
