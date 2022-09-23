@@ -61,8 +61,8 @@ epnsSDKSocket.on(EVENTS.DISCONNECT, () => {
 
 });
 
-epnsSDKSocket.on(EVENTS.USER_FEEDS, (feedList) => {
-  // feedList is an [] containing the notification data when that notification was received
+epnsSDKSocket.on(EVENTS.USER_FEEDS, (feedItem) => {
+  // feedItem is the notification data when that notification was received
 });
 ```
 
@@ -109,11 +109,11 @@ function App() {
       setIsConnected(false);
     })
 
-    sdkSocket?.on(EVENTS.USER_FEEDS, (feedsList) => {
+    sdkSocket?.on(EVENTS.USER_FEEDS, (feedItem) => {
       /**
-       * "feedsList" is an [] which has the latest notification 
+       * "feedItem" is the latest notification received
        */
-      console.log(feedsList);
+      console.log(feedItem);
     })
   };
 
