@@ -1,11 +1,11 @@
-# EPNS-SDK
+# PUSH-SDK
 
-EPNS SDK is a Javascript based Monorepo of packages that helps developers to 
-- build EPNS features into their DApps
-- get access to EPNS Push Nodes APIs
-- render EPNS Notifications UI
+PUSH SDK is a Javascript based Monorepo of packages that helps developers to 
+- build PUSH features into their DApps
+- get access to PUSH Push Nodes APIs
+- render PUSH Notifications UI
 
-without having to write a lot of boilerplate code. All the heavy lifting is done by the SDK, so that you the developer can focus on building features and bootstrap a DApp with EPNS features in no time!
+without having to write a lot of boilerplate code. All the heavy lifting is done by the SDK, so that you the developer can focus on building features and bootstrap a DApp with PUSH features in no time!
 
 The SDK provides a suite of solutions for different problems. It is written in Typescript and supports React, React Native, Plain JS, Node JS based platforms. (We are adding support for more!)
 
