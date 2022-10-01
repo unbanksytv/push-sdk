@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.17](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.16...restapi-0.1.17) (2022-10-01)
+
+
+### Bug Fixes
+
+* **restapi:** polygon mainnet chainid ([9a36c9b](https://github.com/ethereum-push-notification-service/push-sdk/commit/9a36c9bf34e104535028fe0ba5f8309a824a9462))
+
+
+
 ## [0.1.16](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.15...restapi-0.1.16) (2022-10-01)
 
 
