@@ -11,12 +11,12 @@ const NETWORK_MAPPING : NwMappingType = {
   1: 'ETH_MAIN_NET',
   42: 'ETH_KOVAN',
   3: 'ETH_ROPSTEN',
-  37: 'POLYGON_MAINNET',
+  137: 'POLYGON_MAINNET',
   80001: 'POLYGON_MUMBAI'
 };
 
 const injected = new InjectedConnector({
-  supportedChainIds: [1, 3, 4, 5, 42, 37, 80001],
+  supportedChainIds: [1, 3, 4, 5, 42, 137, 80001],
 })
 
 const ConnectWrapper = styled.div`

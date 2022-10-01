@@ -5,7 +5,7 @@ export interface ChainIdToSourceType {
 export const CHAIN_ID_TO_SOURCE: ChainIdToSourceType = {
     1: "ETH_MAINNET",
     42: "ETH_TEST_KOVAN",
-    37: "POLYGON_MAINNET",
+    137: "POLYGON_MAINNET",
     80001: "POLYGON_TEST_MUMBAI",
 };
 
