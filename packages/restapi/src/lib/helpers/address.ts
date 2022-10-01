@@ -6,6 +6,7 @@ export interface AddressValidatorsType {
 }
 
 export function isValidETHAddress(address: string) {
+  console.log(`\nDEBUG: isValidETHAddress =  ${address} \n`);
   return ethers.utils.isAddress(address);
 }
 
