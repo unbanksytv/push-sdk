@@ -1,6 +1,6 @@
 {
   "name": "@epnsproject/sdk-restapi",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "type": "commonjs",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
