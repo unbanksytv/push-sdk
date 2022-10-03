@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.3](https://github.com/ethereum-push-notification-service/push-sdk/compare/socket-0.1.2...socket-0.1.3) (2022-10-03)
+
+
+### Bug Fixes
+
+* **all:** goerli changes ([bdc1f36](https://github.com/ethereum-push-notification-service/push-sdk/commit/bdc1f361ce3d07ed2c75463e6ff037e98edb45f5))
+
+
+
 ## [0.1.2](https://github.com/ethereum-push-notification-service/epns-sdk/compare/socket-0.1.1...socket-0.1.2) (2022-09-23)
 
 
