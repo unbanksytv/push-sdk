@@ -12,10 +12,10 @@ const Constants = {
       LIMIT_MIN: 1,
       LIMIT_MAX: 50
     },
-    DEFAULT_CHAIN_ID: 42,
+    DEFAULT_CHAIN_ID: 5,
     DEV_CHAIN_ID: 99999,
     NON_ETH_CHAINS: [137, 80001],
-    ETH_CHAINS: [1, 42]
+    ETH_CHAINS: [1, 5]
 };
 
 export interface AddressValidatorsType {
@@ -54,7 +54,7 @@ export function getFallbackETHCAIPAddress(env: string, address: string) {
   let chainId = 1; // by default PROD
 
   if (env === Constants.ENV.DEV || env === Constants.ENV.STAGING) {
-    chainId = 42;
+    chainId = 5;
   }
 
   return `eip155:${chainId}:${address}`;

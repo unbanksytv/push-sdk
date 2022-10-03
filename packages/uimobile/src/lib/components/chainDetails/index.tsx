@@ -3,7 +3,7 @@ import PolygonSvg from "./polygonSVG";
 import GraphSvg from "./thegraphSVG"
 
 export default {
-    ETH_TEST_KOVAN: { label: "ETHEREUM KOVAN", Icon: EthereumSvg },
+    ETH_TEST_GOERLI: { label: "ETHEREUM GOERLI", Icon: EthereumSvg },
     ETH_MAINNET: { label: "ETHEREUM MAINNET", Icon: EthereumSvg },
     POLYGON_TEST_MUMBAI: { label: "POLYGON MUMBAI", Icon: PolygonSvg },
     POLYGON_MAINNET: { label: "POLYGON MAINNET", Icon: PolygonSvg },

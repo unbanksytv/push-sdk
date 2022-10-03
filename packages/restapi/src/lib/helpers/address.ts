@@ -61,7 +61,7 @@ export function getFallbackETHCAIPAddress(env: string, address: string) {
   let chainId = 1; // by default PROD
 
   if (env === Constants.ENV.DEV || env === Constants.ENV.STAGING) {
-    chainId = 42;
+    chainId = 5;
   }
 
   return `eip155:${chainId}:${address}`;
@@ -84,7 +84,7 @@ export function getCAIPAddress(env: string, address: string, msg?: string) {
     if (isValidETHAddress(address)) {
       return getFallbackETHCAIPAddress(env, address);
     } else {
-      throw Error(`Invalid Address! ${msg}`);
+      throw Error(`Invalid Address! ${msg} ADDRESS: ${address}`);
     }
   }
 }

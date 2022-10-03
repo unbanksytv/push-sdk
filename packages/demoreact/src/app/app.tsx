@@ -7,7 +7,7 @@ import { Checkbox } from './components/Checkbox';
 import Dropdown from './components/Dropdown';
 import { Web3Context, EnvContext, SocketContext } from './context';
 import { useSDKSocket } from './hooks';
-import Logo from '../assets/epnsLogo.png';
+import { ReactComponent as PushLogo }  from '../assets/pushLogo.svg';
 import NotificationsTest from './NotificationsTest';
 import SecretNotificationsTest from './SecretNotificationsTest';
 import ChannelsTest from './ChannelsTest';
@@ -85,11 +85,6 @@ const StyledApp = styled.div`
   }
 `;
 
-const LogoImg = styled.img`
-  width: 40px;
-  height: 40px;
-`
-
 const NavMenu = styled.div`
   display: flex;
   gap: 30px;
@@ -131,8 +126,8 @@ export function App() {
   return (
     <StyledApp>
       <Link className='homeLink' to="/">
-        <LogoImg src={Logo} />
-        <h1>EPNS-SDK Demo React App</h1>
+        <PushLogo style={{ marginRight: 12 }}/>
+        <h1>SDK Demo React App</h1>
       </Link>
 
       <ConnectButton />

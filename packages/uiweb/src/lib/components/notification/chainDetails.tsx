@@ -7,7 +7,7 @@ const createSVGIcon = (url: string, alt: string) => {
 }
 
 export default {
-    ETH_TEST_KOVAN: { label: "ETHEREUM KOVAN", icon: createSVGIcon(EthereumSVG, "ETHEREUM KOVAN") },
+    ETH_TEST_GOERLI: { label: "ETHEREUM GOERLI", icon: createSVGIcon(EthereumSVG, "ETHEREUM GOERLI") },
     ETH_MAINNET: { label: "ETHEREUM MAINNET", icon: createSVGIcon(EthereumSVG, "ETHEREUM MAINNET") },
     POLYGON_TEST_MUMBAI: { label: "POLYGON MUMBAI", icon: createSVGIcon(PolygonSVG, "POLYGON MUMBAI") },
     POLYGON_MAINNET: { label: "POLYGON MAINNET", icon: createSVGIcon(PolygonSVG, "POLYGON MAINNET") },

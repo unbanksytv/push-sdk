@@ -2,6 +2,42 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.17](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.16...restapi-0.1.17) (2022-10-01)
+
+
+### Bug Fixes
+
+* **restapi:** polygon mainnet chainid ([9a36c9b](https://github.com/ethereum-push-notification-service/push-sdk/commit/9a36c9bf34e104535028fe0ba5f8309a824a9462))
+
+
+
+## [0.1.16](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.15...restapi-0.1.16) (2022-10-01)
+
+
+### Bug Fixes
+
+* **restapi:** logs ([2b87b70](https://github.com/ethereum-push-notification-service/push-sdk/commit/2b87b703b510843c8061b999f560ce13cc7314c6))
+
+
+
+## [0.1.15](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.14...restapi-0.1.15) (2022-10-01)
+
+
+### Bug Fixes
+
+* **restapi:** add debug msg ([e3bcae5](https://github.com/ethereum-push-notification-service/push-sdk/commit/e3bcae5389e9e6442b9d269bf881a2e64d33783e))
+
+
+
+## [0.1.14](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.13...restapi-0.1.14) (2022-10-01)
+
+
+### Bug Fixes
+
+* **restapi:** add debug msg ([b45b3dd](https://github.com/ethereum-push-notification-service/push-sdk/commit/b45b3ddac387677b79318a352cfb4567970a7368))
+
+
+
 ## [0.1.13](https://github.com/ethereum-push-notification-service/epns-sdk/compare/restapi-0.1.12...restapi-0.1.13) (2022-09-04)
 
 

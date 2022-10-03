@@ -52,7 +52,7 @@ const signer = library.getSigner(account);
 #### **fetching user notifications**
 ```typescript
 const notifications = await EpnsAPI.user.getFeeds({
-  user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+  user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
   env: 'staging'
 });
 ```
@@ -60,7 +60,7 @@ const notifications = await EpnsAPI.user.getFeeds({
 #### **fetching user spam notifications**
 ```typescript
 const spams = await EpnsAPI.user.getFeeds({
-  user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+  user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
   spam: true,
   env: 'staging'
 });
@@ -79,7 +79,7 @@ Allowed Options (params with * are mandatory)
 #### **fetching user subscriptions**
 ```typescript
 const subscriptions = await EpnsAPI.user.getSubscriptions({
-  user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+  user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
   env: 'staging'
 });
 ```
@@ -98,7 +98,7 @@ Allowed Options (params with * are mandatory)
 #### **fetching channel details**
 ```typescript
 const channelData = await EpnsAPI.channels.getChannel({
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
   env: 'staging'
 });
 ```
@@ -133,8 +133,8 @@ Allowed Options (params with * are mandatory)
 ```typescript
 await EpnsAPI.channels.subscribe({
   signer: _signer,
-  channelAddress: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
-  userAddress: 'eip155:42:0x52f856A160733A860ae7DC98DC71061bE33A28b3', // user address in CAIP
+  channelAddress: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
+  userAddress: 'eip155:5:0x52f856A160733A860ae7DC98DC71061bE33A28b3', // user address in CAIP
   onSuccess: () => {
    console.log('opt in success');
   },
@@ -161,8 +161,8 @@ Allowed Options (params with * are mandatory)
 ```typescript
 await EpnsAPI.channels.unsubscribe({
   signer: _signer,
-  channelAddress: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
-  userAddress: 'eip155:42:0x52f856A160733A860ae7DC98DC71061bE33A28b3', // user address in CAIP
+  channelAddress: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
+  userAddress: 'eip155:5:0x52f856A160733A860ae7DC98DC71061bE33A28b3', // user address in CAIP
   onSuccess: () => {
    console.log('opt out success');
   },
@@ -188,7 +188,7 @@ Allowed Options (params with * are mandatory)
 <sup>*</sup>EPNS communicator contract address
 ```
 ETH Mainnet - 0xb3971BCef2D791bc4027BbfedFb47319A4AAaaAa
-ETH Kovan - 0x87da9Af1899ad477C67FeA31ce89c1d2435c77DC
+ETH Goerli - 0x87da9Af1899ad477C67FeA31ce89c1d2435c77DC
 ```
 
 #### **sending notification**
@@ -211,8 +211,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     cta: '',
     img: ''
   },
-  recipients: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // recipient address
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // recipient address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -234,8 +234,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     cta: '',
     img: ''
   },
-  recipients: ['eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', 'eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1'], // recipients addresses
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: ['eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', 'eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1'], // recipients addresses
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -257,7 +257,7 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     cta: '',
     img: ''
   },
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -270,8 +270,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
   type: 3, // target
   identityType: 1, // ipfs payload
   ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // IPFS hash of the payload
-  recipients: 'eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', // recipient address
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: 'eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', // recipient address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -284,8 +284,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
   type: 4, // subset
   identityType: 1, // ipfs payload
   ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // IPFS hash of the payload
-  recipients: ['eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', 'eip155:42:0x52f856A160733A860ae7DC98DC71061bE33A28b3'], // recipients addresses
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: ['eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', 'eip155:5:0x52f856A160733A860ae7DC98DC71061bE33A28b3'], // recipients addresses
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -298,7 +298,7 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
   type: 1, // broadcast
   identityType: 1, // direct payload
   ipfsHash: 'bafkreicuttr5gpbyzyn6cyapxctlr7dk2g6fnydqxy6lps424mcjcn73we', // IPFS hash of the payload
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -320,8 +320,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     cta: '',
     img: ''
   },
-  recipients: 'eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', // recipient address
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: 'eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', // recipient address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -343,8 +343,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     cta: '',
     img: ''
   },
-  recipients: ['eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', 'eip155:42:0x52f856A160733A860ae7DC98DC71061bE33A28b3'], // recipients address
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: ['eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', 'eip155:5:0x52f856A160733A860ae7DC98DC71061bE33A28b3'], // recipients address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -366,7 +366,7 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     cta: '',
     img: ''
   },
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -383,8 +383,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     id: '_your_graph_id',
     counter: 3
   },
-  recipients: 'eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', // recipient address
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: 'eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', // recipient address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -401,8 +401,8 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     id: '_your_graph_id',
     counter: 3
   },
-  recipients: ['eip155:42:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', 'eip155:42:0x52f856A160733A860ae7DC98DC71061bE33A28b3'], // recipients addresses
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  recipients: ['eip155:5:0xCdBE6D076e05c5875D90fa35cc85694E1EAFBBd1', 'eip155:5:0x52f856A160733A860ae7DC98DC71061bE33A28b3'], // recipients addresses
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -419,7 +419,7 @@ const apiResponse = await EpnsAPI.payloads.sendNotification({
     id: '_your_graph_id',
     counter: 3
   },
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // your channel address
   env: 'staging'
 });
 ```
@@ -454,7 +454,7 @@ Utils method to parse raw EPNS Feeds API response into a pre-defined shape as be
 ```typescript
 // fetch some raw feeds data
 const apiResponse = await EpnsAPI.user.getFeeds({
-  user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address
+  user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address
   raw: true,
   env: 'staging'
 });
@@ -491,7 +491,7 @@ const {
 #### **get a channel's subscriber list of addresses**
 ```typescript
 const subscribers = await EpnsAPI.channels._getSubscribers({
-  channel: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
+  channel: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // channel address in CAIP
   env: 'staging'
 });
 ```
