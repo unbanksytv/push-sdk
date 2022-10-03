@@ -24,7 +24,7 @@ import {
 #### **first create a socket connection object**
 ```typescript
 const epnsSDKSocket = createSocketConnection({
-  user: 'eip155:42:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb', // CAIP, see below
+  user: 'eip155:5:0xab16a96d359ec26a11e2c2b3d8f8b8942d5bfcdb', // CAIP, see below
   env: 'staging',
   socketOptions: { autoConnect: false }
 });
@@ -92,7 +92,7 @@ import { useState, useEffect } from "react";
 import { createSocketConnection, EVENTS } from '@epnsproject/sdk-socket';
 
 const user = '0xD8634C39BBFd4033c0d3289C4515275102423681';
-const chainId = 42;
+const chainId = 5;
 
 const userCAIP = `eip155:${chainId}:${user}`;
 

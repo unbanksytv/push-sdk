@@ -9,7 +9,7 @@ interface NwMappingType {
 
 const NETWORK_MAPPING : NwMappingType = {
   1: 'ETH_MAIN_NET',
-  42: 'ETH_KOVAN',
+  5: 'ETH_GOERLI',
   3: 'ETH_ROPSTEN',
   137: 'POLYGON_MAINNET',
   80001: 'POLYGON_MUMBAI'

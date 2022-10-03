@@ -4,9 +4,9 @@
 
 ## Repo Setup
 ```
-git clone https://github.com/ethereum-push-notification-service/epns-sdk.git
+git clone https://github.com/ethereum-push-notification-service/push-sdk.git
 
-cd epns-sdk
+cd push-sdk
 ```
 
 ```

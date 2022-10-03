@@ -61,7 +61,7 @@ export function getFallbackETHCAIPAddress(env: string, address: string) {
   let chainId = 1; // by default PROD
 
   if (env === Constants.ENV.DEV || env === Constants.ENV.STAGING) {
-    chainId = 42;
+    chainId = 5;
   }
 
   return `eip155:${chainId}:${address}`;

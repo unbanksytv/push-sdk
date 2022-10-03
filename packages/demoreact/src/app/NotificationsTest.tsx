@@ -171,7 +171,7 @@ const NotificationsTest = () => {
                       image={image}
                       url={url}
                       theme={theme}
-                      // chainName="ETH_TEST_KOVAN"
+                      // chainName="ETH_TEST_GOERLI"
                       chainName={blockchain as chainNameType}
                     />
                   );

@@ -3,8 +3,8 @@ export interface URLConfigType {
 }
 
 const URLConfig : URLConfigType = {
-  1: 'https://backend-prod.epns.io/apis/feeds/get_feeds',
-  42: 'https://backend-kovan.epns.io/apis/feeds/get_feeds'
+  1: 'https://backend.epns.io/apis',
+  5: 'https://backend-staging.epns.io/apis'
 };
 
 export default {

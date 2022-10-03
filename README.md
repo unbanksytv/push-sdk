@@ -69,7 +69,7 @@ import * as EpnsAPI from "@epnsproject/sdk-restapi";
 // here "getFeeds" gets all the notifications for the user address provided
 const main = async() => {
   const notifications = await EpnsAPI.user.getFeeds({
-    user: 'eip155:42:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
+    user: 'eip155:5:0xD8634C39BBFd4033c0d3289C4515275102423681', // user address in CAIP
     env: 'staging'
   });
 

@@ -37,8 +37,8 @@ function validateConfig(passedConfig : ConfigType) : boolean {
 	return false
   }
 
-  if (![1, 42].includes(passedConfig.chainId)) {
-	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.chainId passed is not in EPNS supported networks [1, 42]!`)
+  if (![1, 5].includes(passedConfig.chainId)) {
+	console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - config.chainId passed is not in EPNS supported networks [1, 5]!`)
 	return false
   }
   if (!passedConfig.targetID) {
@@ -271,16 +271,13 @@ async function refreshUnreadCount() {
 
 async function getUnreadNotifications() {
 	// call the API here
-	const apiUrl = Constants.EPNS_SDK_EMBED_API_URL[__CONFIG.chainId];
 	try {
-		const response = await fetch(apiUrl, {
-			method: "POST",
-			body: JSON.stringify({
-				"user": __CONFIG.user,
-				"page": 1,
-				"pageSize": 10,
-				"op": "read"
-			}),
+		const userInCAIP = `eip155:${__CONFIG.chainId}:${__CONFIG.user}`;
+		const apiBaseUrl = Constants.EPNS_SDK_EMBED_API_URL[__CONFIG.chainId];
+		const requestUrl = `${apiBaseUrl}/v1/users/${userInCAIP}/feeds?page=1&limit=10&spam=false`;
+
+		const response = await fetch(requestUrl, {
+			method: "GET",
 			headers: {
 				"Content-type": "application/json; charset=UTF-8"
 			}
@@ -294,7 +291,7 @@ async function getUnreadNotifications() {
 		  }
 
 	} catch (error) {
-		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - API Error ${apiUrl}`, error);
+		console.error(`${Constants.EPNS_SDK_EMBED_NAMESPACE} - API Error`, error);
 		return [];
 	}
 }

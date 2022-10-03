@@ -29,7 +29,7 @@ const isRunninginLedgerContext = isLedgerDappBrowserProvider(); // boolean
 import { useWeb3React } from '@web3-react/core'
 import { isLedgerDappBrowserProvider } from '@epnsproject/sdk-ledgerlive';
 
-export const injected = new InjectedConnector({ supportedChainIds: [1, 42] })
+export const injected = new InjectedConnector({ supportedChainIds: [1, 5] })
 
 export function useEagerConnect() {
   const { activate, active } = useWeb3React()

@@ -27,7 +27,7 @@ export const SubscribedModal: React.FC<SubscribedModalProps> = ({ onClose }) => 
             <StyledSpan>Notifications</StyledSpan>
           </CustomHeaderTwo>
           <H3>
-            Receive notifications from <b>EPNS</b> via the following platforms.
+            Receive notifications from <b>Push</b> via the following platforms.
           </H3>
         </Item>
 
