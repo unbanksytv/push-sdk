@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.0.4](https://github.com/ethereum-push-notification-service/push-sdk/compare/uiembed-0.0.3...uiembed-0.0.4) (2022-10-03)
+
+
+### Bug Fixes
+
+* **all:** goerli changes ([bdc1f36](https://github.com/ethereum-push-notification-service/push-sdk/commit/bdc1f361ce3d07ed2c75463e6ff037e98edb45f5))
+
+
+
 ## [0.0.3](https://github.com/ethereum-push-notification-service/epns-sdk/compare/uiembed-0.0.2...uiembed-0.0.3) (2022-06-24)
 
 
