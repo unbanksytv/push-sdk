@@ -2,6 +2,15 @@
 
 This file was generated using [@jscutlery/semver](https://github.com/jscutlery/semver).
 
+## [0.1.19](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.18...restapi-0.1.19) (2022-10-03)
+
+
+### Bug Fixes
+
+* **restapi:** chat apis first attempt ([64f763c](https://github.com/ethereum-push-notification-service/push-sdk/commit/64f763c85d587095e1f8843ca3259a447b08df79))
+
+
+
 ## [0.1.18](https://github.com/ethereum-push-notification-service/push-sdk/compare/restapi-0.1.17...restapi-0.1.18) (2022-10-03)
 
 
