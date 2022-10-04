@@ -41,7 +41,8 @@ export function getPayloadForAPIInput(
         type: inputOptions?.type?.toString() || '',
         ...(inputOptions?.expiry && { etime: inputOptions?.expiry }),
         ...(inputOptions?.hidden && { hidden: inputOptions?.hidden }),
-        ...(inputOptions?.payload?.sectype && { sectype: inputOptions?.payload?.sectype })
+        ...(inputOptions?.payload?.sectype && { sectype: inputOptions?.payload?.sectype }),
+        ...(inputOptions?.payload?.metadata && { metadata: inputOptions?.payload?.metadata }),
       },
       recipients: recipients
     };

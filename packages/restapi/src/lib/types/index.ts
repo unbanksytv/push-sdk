@@ -79,6 +79,7 @@ export interface ISendNotificationInputOptions {
       body: string;
       cta: string;
       img: string;
+      metadata?: any;
     },
     recipients?: string | string[]; // CAIP or plain ETH
     channel: string; // CAIP or plain ETH
